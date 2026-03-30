@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Properties | MyGeorgia Estate</title>
+    <meta name="description" content="Browse fictional real estate listings in Georgia. Click any listing for a details overlay built with pure HTML/CSS."/>
+    <link rel="stylesheet" href="css/style.css"/>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MyGeorgia Estate home">
+          <img src="assets/logo.svg" alt="MyGeorgia Estate"/>
+          <div>
+            MyGeorgia Estate
+            <small>Homes across Georgia</small>
+          </div>
+        </a>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="properties.html" aria-current="page">Properties</a>
+          <a href="about.html">About</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <div id="top" aria-hidden="true"></div>
+
+      <section class="hero" style="margin-bottom: 1.4rem;">
+        <div class="hero-card">
+          <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Curated listings · Demo data</div>
+          <h1>Explore properties in Georgia</h1>
+          <p>
+            Click “View details” to open a modal overlay powered by CSS `:target`.
+            Everything here is fictional, created for website layout and content structure.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#property-grid">See all listings</a>
+            <a class="btn btn-ghost" href="contact.html#contact-form">Schedule a viewing</a>
+          </div>
+        </div>
+
+        <aside class="hero-aside">
+          <b>Demo filters</b>
+          <p class="muted" style="margin: .6rem 0 0;">
+            The controls below are visual only. If you want real filtering, I can add JavaScript or connect a backend.
+          </p>
+          <div style="margin-top: 1rem;">
+            <div class="field">
+              <label for="search">Search</label>
+              <input id="search" name="search" placeholder="Try: Tbilisi, villa, terrace (demo)" disabled/>
+            </div>
+            <div class="field">
+              <label for="budget">Budget range</label>
+              <select id="budget" name="budget" disabled>
+                <option>Any</option>
+              </select>
+            </div>
+          </div>
+          <div class="notice" style="margin-top: 1rem;">
+            Tip: open a listing and include its code (e.g., <b>MG-003</b>) when contacting us.
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" aria-labelledby="property-grid">
+        <div class="section-title">
+          <h2 id="property-grid">All listings</h2>
+          <p>6 examples across apartments, villas, and houses. Prices shown in GEL.</p>
+        </div>
+
+        <div class="grid grid-3" role="list">
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="assets/property-1.svg" alt="Placeholder photo for MG-001"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-001 · Apartment · Tbilisi</span>
+              <h3>Modern 2BR Apartment in Vake</h3>
+              <div class="price">165,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">78 m²</span>
+                <span class="chip">2 beds</span>
+                <span class="chip">1 bath</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p1">View details</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="assets/property-2.svg" alt="Placeholder photo for MG-002"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-002 · Villa · Batumi</span>
+              <h3>Coastal Villa with Terrace</h3>
+              <div class="price">280,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">132 m²</span>
+                <span class="chip">3 beds</span>
+                <span class="chip">2 baths</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p2">View details</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="assets/property-3.svg" alt="Placeholder photo for MG-003"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-003 · House · Kutaisi</span>
+              <h3>4BR House with Garden</h3>
+              <div class="price">230,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">195 m²</span>
+                <span class="chip">4 beds</span>
+                <span class="chip">Garden</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p3">View details</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="assets/property-4.svg" alt="Placeholder photo for MG-004"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-004 · Apartment · Gori</span>
+              <h3>Cozy 1BR Near Old Town</h3>
+              <div class="price">72,500 GEL</div>
+              <div class="meta-row">
+                <span class="chip">52 m²</span>
+                <span class="chip">1 bed</span>
+                <span class="chip">3rd floor</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p4">View details</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="assets/property-5.svg" alt="Placeholder photo for MG-005"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-005 · Apartment · Rustavi</span>
+              <h3>Modern Studio in City Center</h3>
+              <div class="price">54,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">39 m²</span>
+                <span class="chip">Studio</span>
+                <span class="chip">Elevator</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p5">View details</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="assets/property-6.svg" alt="Placeholder photo for MG-006"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-006 · Villa · Tbilisi</span>
+              <h3>Luxury Hillside Villa</h3>
+              <div class="price">410,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">210 m²</span>
+                <span class="chip">4 beds</span>
+                <span class="chip">Private yard</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p6">View details</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Property detail overlays (pure HTML/CSS via :target) -->
+
+      <section class="property-detail" id="p1" aria-label="MG-001 details">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p1-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p1-title">MG-001 · Modern 2BR Apartment in Vake (Tbilisi)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Close details">Close</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="assets/property-1.svg" alt="MG-001 placeholder photo"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">165,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Address (demo): Vake, 120a Tamarashvili St · Built 2018 · Secure entrance
+                </p>
+                <ul class="bullets">
+                  <li><b>Area</b> 78 m² · 6th floor · Elevator access</li>
+                  <li><b>Layout</b> 2 bedrooms · 1 bathroom · Spacious living room</li>
+                  <li><b>Highlights</b> Panoramic balcony · Dedicated parking spot · Quiet courtyard</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Request viewing</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Back to listings</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Tip: mention <b>MG-001</b> in your message so we can match you with the right offer.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p2" aria-label="MG-002 details">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p2-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p2-title">MG-002 · Coastal Villa with Terrace (Batumi)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Close details">Close</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="assets/property-2.svg" alt="MG-002 placeholder photo"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">280,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Address (demo): Batumi, Seaside District · Land 420 m² · Built 2020
+                </p>
+                <ul class="bullets">
+                  <li><b>Area</b> 132 m² + terrace · Private parking · Storage room</li>
+                  <li><b>Layout</b> 3 bedrooms · 2 bathrooms · Open-plan kitchen</li>
+                  <li><b>Highlights</b> Terrace for sunset dining · Garden path · Quiet neighbors</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Request viewing</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Back to listings</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Tip: mention <b>MG-002</b> in your message.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p3" aria-label="MG-003 details">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p3-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p3-title">MG-003 · 4BR House with Garden (Kutaisi)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Close details">Close</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="assets/property-3.svg" alt="MG-003 placeholder photo"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">230,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Address (demo): Kutaisi, Green Belt · Land 560 m² · Built 2016
+                </p>
+                <ul class="bullets">
+                  <li><b>Area</b> 195 m² · Garden & patio · Workshop space</li>
+                  <li><b>Layout</b> 4 bedrooms · 2 bathrooms · Family dining area</li>
+                  <li><b>Highlights</b> Fruit trees (demo) · Low-maintenance landscaping · Safe driveway</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Request viewing</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Back to listings</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Tip: mention <b>MG-003</b> in your message.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p4" aria-label="MG-004 details">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p4-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p4-title">MG-004 · Cozy 1BR Near Old Town (Gori)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Close details">Close</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="assets/property-4.svg" alt="MG-004 placeholder photo"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">72,500 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Address (demo): Gori, Old Town Edge · Built 2014 · Courtyard view
+                </p>
+                <ul class="bullets">
+                  <li><b>Area</b> 52 m² · 3rd floor · Bright windows</li>
+                  <li><b>Layout</b> 1 bedroom · 1 bathroom · Compact, efficient kitchen</li>
+                  <li><b>Highlights</b> Walking distance to cafes · Quiet street (demo) · Storage closet</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Request viewing</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Back to listings</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Tip: mention <b>MG-004</b> in your message.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p5" aria-label="MG-005 details">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p5-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p5-title">MG-005 · Modern Studio in City Center (Rustavi)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Close details">Close</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="assets/property-5.svg" alt="MG-005 placeholder photo"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">54,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Address (demo): Rustavi, City Center · Built 2019 · Elevator building
+                </p>
+                <ul class="bullets">
+                  <li><b>Area</b> 39 m² · Studio layout · Low monthly maintenance (demo)</li>
+                  <li><b>Layout</b> Open-plan sleeping & living area · 1 bathroom</li>
+                  <li><b>Highlights</b> Great for first-time buyers · Nearby transit · Practical storage</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Request viewing</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Back to listings</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Tip: mention <b>MG-005</b> in your message.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p6" aria-label="MG-006 details">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p6-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p6-title">MG-006 · Luxury Hillside Villa (Tbilisi)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Close details">Close</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="assets/property-6.svg" alt="MG-006 placeholder photo"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">410,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Address (demo): Tbilisi, Hillside Park · Land 750 m² · Built 2017
+                </p>
+                <ul class="bullets">
+                  <li><b>Area</b> 210 m² · Private yard · Outdoor seating zone</li>
+                  <li><b>Layout</b> 4 bedrooms · 3 bathrooms · Study room (demo)</li>
+                  <li><b>Highlights</b> Scenic views · Smart security features (demo) · Spacious terrace</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Request viewing</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Back to listings</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Tip: mention <b>MG-006</b> in your message.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <b>MyGeorgia Estate</b>
+          <div class="muted" style="margin-top:.25rem;">Browse fictional listings with modal details.</div>
+        </div>
+        <div class="footer-links" aria-label="Footer links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+

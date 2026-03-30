@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Contact | MyGeorgia Estate</title>
+    <meta name="description" content="Contact the fictional MyGeorgia Estate agency. Demo contact form without a backend."/>
+    <link rel="stylesheet" href="css/style.css"/>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MyGeorgia Estate home">
+          <img src="assets/logo.svg" alt="MyGeorgia Estate"/>
+          <div>
+            MyGeorgia Estate
+            <small>Homes across Georgia</small>
+          </div>
+        </a>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="index.html">Home</a>
+          <a href="properties.html">Properties</a>
+          <a href="about.html">About</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html" aria-current="page">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <section class="hero" style="margin-bottom: 1.4rem;">
+        <div class="hero-card">
+          <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Contact · Demo site</div>
+          <h1>Let’s plan your viewing</h1>
+          <p>
+            This is a static demo contact page. The form does not send anywhere—replace it with your preferred
+            form handler (or connect to a backend).
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="properties.html#top">Browse again</a>
+            <a class="btn btn-ghost" href="#contact-form">Send a message</a>
+          </div>
+        </div>
+
+        <aside class="hero-aside">
+          <b>Direct contact</b>
+          <div class="meta-row" style="margin-top: .9rem;">
+            <span class="chip">Phone: +995 555 01 23 45</span>
+            <span class="chip">Email: hello@mygeorgiaestate.example</span>
+            <span class="chip">WhatsApp: +995 555 01 23 45</span>
+          </div>
+          <div class="notice" style="margin-top: 1rem;">
+            Office hours (demo): Mon–Sat, 10:00–18:00.
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-body">
+              <b>Send us a message</b>
+              <p class="muted" style="margin: .45rem 0 0;">
+                Include your preferred city and budget. If you opened a listing, add its code like <b>MG-002</b>.
+              </p>
+
+              <form action="#" method="post" id="contact-form" aria-label="Contact form">
+                <div class="field">
+                  <label for="name">Full name</label>
+                  <input id="name" name="name" placeholder="e.g., Alex Petrov" required/>
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="alex@example.com" required/>
+                </div>
+                <div class="field">
+                  <label for="phone">Phone (optional)</label>
+                  <input id="phone" name="phone" placeholder="+995 ..."/>
+                </div>
+                <div class="field">
+                  <label for="city">Preferred city</label>
+                  <select id="city" name="city">
+                    <option value="Tbilisi">Tbilisi</option>
+                    <option value="Batumi">Batumi</option>
+                    <option value="Kutaisi">Kutaisi</option>
+                    <option value="Gori">Gori</option>
+                    <option value="Rustavi">Rustavi</option>
+                    <option value="Any" selected>Any</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budget">Budget (GEL)</label>
+                  <select id="budget" name="budget">
+                    <option value="Any" selected>Any</option>
+                    <option value="Under100k">Under 100,000</option>
+                    <option value="100k-200k">100,000–200,000</option>
+                    <option value="200k-350k">200,000–350,000</option>
+                    <option value="350k+">350,000+</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="propertyCode">Property code (optional)</label>
+                  <input id="propertyCode" name="propertyCode" placeholder="MG-001, MG-002..."/>
+                </div>
+                <div class="field">
+                  <label for="message">Message</label>
+                  <textarea id="message" name="message" placeholder="Timeline, number of bedrooms, what matters most..."></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Send message</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <b>Office & area</b>
+              <p class="muted" style="margin: .45rem 0 0;">
+                Demo location marker. Replace with a real Google/Mapbox embed if desired.
+              </p>
+
+              <div class="notice" style="height: 220px; display:flex; align-items:center; justify-content:center; text-align:center; margin-top: 1rem;">
+                Map placeholder
+              </div>
+
+              <div class="section" style="margin-top: 1.25rem;">
+                <b>What happens next</b>
+                <div class="bullets" style="margin-top: .8rem;">
+                  <div class="notice" style="margin-top: .7rem;">
+                    1) We reply with a short shortlist and viewing options.
+                  </div>
+                  <div class="notice" style="margin-top: .7rem;">
+                    2) We schedule tours in your preferred city.
+                  </div>
+                  <div class="notice" style="margin-top: .7rem;">
+                    3) We help you compare offers and move forward.
+                  </div>
+                </div>
+              </div>
+
+              <p class="muted" style="margin-top: 1rem;">
+                Demo reminder: This form does not submit anywhere; it only demonstrates layout and structure.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <b>MyGeorgia Estate</b>
+          <div class="muted" style="margin-top:.25rem;">Contact demo page with a static form.</div>
+        </div>
+        <div class="footer-links" aria-label="Footer links">
+          <a href="index.html">Home</a>
+          <a href="properties.html">Listings</a>
+          <a href="about.html">About</a>
+          <a href="faqs.html">FAQ</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+

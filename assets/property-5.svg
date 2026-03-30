@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="Property photo placeholder">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7cdbff" stop-opacity="0.78"/>
+      <stop offset="1" stop-color="#6ee7b7" stop-opacity="0.78"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#0b1220" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#0b1220" stop-opacity="0.12"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="560" fill="url(#g2)"/>
+  <rect x="70" y="95" width="760" height="380" rx="26" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.14)"/>
+  <path d="M250 345L450 220L650 345" fill="none" stroke="url(#g1)" stroke-width="20" stroke-linecap="round"/>
+  <rect x="280" y="350" width="340" height="125" rx="20" fill="url(#g1)" opacity="0.9"/>
+  <rect x="315" y="382" width="70" height="60" rx="14" fill="rgba(0,0,0,0.16)"/>
+  <rect x="395" y="382" width="70" height="60" rx="14" fill="rgba(0,0,0,0.14)"/>
+  <rect x="475" y="382" width="70" height="60" rx="14" fill="rgba(0,0,0,0.16)"/>
+  <text x="90" y="165" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial" font-size="34" fill="rgba(255,255,255,0.88)" font-weight="800">Rustavi</text>
+  <text x="90" y="205" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial" font-size="22" fill="rgba(255,255,255,0.70)" font-weight="700">Modern studio</text>
+</svg>
+
