@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Контакты | MyGeorgia Estate</title>
+    <meta name="description" content="Свяжитесь с MyGeorgia Estate. Демо-форма без backend."/>
+    <link rel="stylesheet" href="../css/style.css"/>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти к содержанию</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="Главная MyGeorgia Estate">
+          <img src="../assets/logo.svg" alt="MyGeorgia Estate"/>
+          <div>
+            MyGeorgia Estate
+            <small>Дома по всей Грузии</small>
+          </div>
+        </a>
+
+        <nav class="nav" aria-label="Основная навигация">
+          <a href="index.html">Главная</a>
+          <a href="properties.html">Объекты</a>
+          <a href="about.html">О нас</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html" aria-current="page">Контакты</a>
+          <span class="muted" aria-hidden="true">|</span>
+          <a href="../en/contact.html" title="English">EN</a>
+          <a href="../ru/contact.html" aria-current="page" title="Русский">RU</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <section class="hero" style="margin-bottom: 1.4rem;">
+        <div class="hero-card">
+          <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Контакты · Демо-сайт</div>
+          <h1>Запланируем просмотр</h1>
+          <p>
+            Это статическая демо-страница. Форма ничего не отправляет — замените её на ваш обработчик формы
+            (или подключите backend).
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="properties.html#top">Вернуться к объектам</a>
+            <a class="btn btn-ghost" href="#contact-form">Написать</a>
+          </div>
+        </div>
+
+        <aside class="hero-aside">
+          <b>Контакты</b>
+          <div class="meta-row" style="margin-top: .9rem;">
+            <span class="chip">Телефон: +995 555 01 23 45</span>
+            <span class="chip">Email: hello@mygeorgiaestate.example</span>
+            <span class="chip">WhatsApp: +995 555 01 23 45</span>
+          </div>
+          <div class="notice" style="margin-top: 1rem;">
+            Часы работы (демо): Пн–Сб, 10:00–18:00.
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-body">
+              <b>Сообщение</b>
+              <p class="muted" style="margin: .45rem 0 0;">
+                Укажите город и бюджет. Если вы открывали объект — добавьте код, например <b>MG-002</b>.
+              </p>
+
+              <form action="#" method="post" id="contact-form" aria-label="Контактная форма">
+                <div class="field">
+                  <label for="name">Имя и фамилия</label>
+                  <input id="name" name="name" placeholder="Например: Иван Иванов" required/>
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="ivan@example.com" required/>
+                </div>
+                <div class="field">
+                  <label for="phone">Телефон (необязательно)</label>
+                  <input id="phone" name="phone" placeholder="+995 ..."/>
+                </div>
+                <div class="field">
+                  <label for="city">Предпочтительный город</label>
+                  <select id="city" name="city">
+                    <option value="Tbilisi">Тбилиси</option>
+                    <option value="Batumi">Батуми</option>
+                    <option value="Kutaisi">Кутаиси</option>
+                    <option value="Gori">Гори</option>
+                    <option value="Rustavi">Рустави</option>
+                    <option value="Any" selected>Любой</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budget">Бюджет (GEL)</label>
+                  <select id="budget" name="budget">
+                    <option value="Any" selected>Любой</option>
+                    <option value="Under100k">До 100 000</option>
+                    <option value="100k-200k">100 000–200 000</option>
+                    <option value="200k-350k">200 000–350 000</option>
+                    <option value="350k+">350 000+</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="propertyCode">Код объекта (необязательно)</label>
+                  <input id="propertyCode" name="propertyCode" placeholder="MG-001, MG-002..."/>
+                </div>
+                <div class="field">
+                  <label for="message">Сообщение</label>
+                  <textarea id="message" name="message" placeholder="Сроки, количество спален, что важно..."></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Отправить сообщение</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <b>Офис и район</b>
+              <p class="muted" style="margin: .45rem 0 0;">
+                Демо-маркер. При желании можно заменить на реальный embed карты (Google/Mapbox).
+              </p>
+
+              <div class="notice" style="height: 220px; display:flex; align-items:center; justify-content:center; text-align:center; margin-top: 1rem;">
+                Плейсхолдер карты
+              </div>
+
+              <div class="section" style="margin-top: 1.25rem;">
+                <b>Что дальше</b>
+                <div class="bullets" style="margin-top: .8rem;">
+                  <div class="notice" style="margin-top: .7rem;">
+                    1) Мы ответим с коротким списком и вариантами просмотров.
+                  </div>
+                  <div class="notice" style="margin-top: .7rem;">
+                    2) Запланируем показы в вашем городе.
+                  </div>
+                  <div class="notice" style="margin-top: .7rem;">
+                    3) Поможем сравнить варианты и двигаться дальше.
+                  </div>
+                </div>
+              </div>
+
+              <p class="muted" style="margin-top: 1rem;">
+                Напоминание: это демо-форма — она ничего не отправляет.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <b>MyGeorgia Estate</b>
+          <div class="muted" style="margin-top:.25rem;">Контакты — демо-страница со статической формой.</div>
+        </div>
+        <div class="footer-links" aria-label="Ссылки в подвале">
+          <a href="index.html">Главная</a>
+          <a href="properties.html">Объекты</a>
+          <a href="about.html">О нас</a>
+          <a href="faqs.html">FAQ</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+

@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Объекты | MyGeorgia Estate</title>
+    <meta name="description" content="Вымышленные объявления недвижимости в Грузии. Нажмите на карточку, чтобы открыть детали (чистый HTML/CSS)."/>
+    <link rel="stylesheet" href="../css/style.css"/>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти к содержанию</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="Главная MyGeorgia Estate">
+          <img src="../assets/logo.svg" alt="MyGeorgia Estate"/>
+          <div>
+            MyGeorgia Estate
+            <small>Дома по всей Грузии</small>
+          </div>
+        </a>
+
+        <nav class="nav" aria-label="Основная навигация">
+          <a href="index.html">Главная</a>
+          <a href="properties.html" aria-current="page">Объекты</a>
+          <a href="about.html">О нас</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html">Контакты</a>
+          <span class="muted" aria-hidden="true">|</span>
+          <a href="../en/properties.html" title="English">EN</a>
+          <a href="../ru/properties.html" aria-current="page" title="Русский">RU</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <div id="top" aria-hidden="true"></div>
+
+      <section class="hero" style="margin-bottom: 1.4rem;">
+        <div class="hero-card">
+          <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Подборка объектов · Демо-данные</div>
+          <h1>Посмотрите объекты недвижимости в Грузии</h1>
+          <p>
+            Нажмите «Подробнее», чтобы открыть окно с деталями на базе CSS <code>:target</code>.
+            Все данные здесь вымышленные и нужны для демонстрации структуры сайта.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#property-grid">Смотреть все объекты</a>
+            <a class="btn btn-ghost" href="contact.html#contact-form">Запланировать просмотр</a>
+          </div>
+        </div>
+
+        <aside class="hero-aside">
+          <b>Демо-фильтры</b>
+          <p class="muted" style="margin: .6rem 0 0;">
+            Поля ниже только для вида. Если нужно реальное фильтрование — добавим JavaScript или подключим backend.
+          </p>
+          <div style="margin-top: 1rem;">
+            <div class="field">
+              <label for="search">Поиск</label>
+              <input id="search" name="search" placeholder="Например: Tbilisi, villa, terrace (demo)" disabled/>
+            </div>
+            <div class="field">
+              <label for="budget">Бюджет</label>
+              <select id="budget" name="budget" disabled>
+                <option>Любой</option>
+              </select>
+            </div>
+          </div>
+          <div class="notice" style="margin-top: 1rem;">
+            Подсказка: откройте объект и укажите его код (например, <b>MG-003</b>) в сообщении.
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" aria-labelledby="property-grid">
+        <div class="section-title">
+          <h2 id="property-grid">Все объекты</h2>
+          <p>6 примеров: квартиры, виллы и дома. Цены указаны в GEL.</p>
+        </div>
+
+        <div class="grid grid-3" role="list">
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-1.svg" alt="Плейсхолдер фото для MG-001"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-001 · Квартира · Тбилиси</span>
+              <h3>Современная 2BR квартира в Ваке</h3>
+              <div class="price">165,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">78 м²</span>
+                <span class="chip">2 спальни</span>
+                <span class="chip">1 санузел</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p1">Подробнее</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-2.svg" alt="Плейсхолдер фото для MG-002"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-002 · Вилла · Батуми</span>
+              <h3>Вилла у моря с террасой</h3>
+              <div class="price">280,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">132 м²</span>
+                <span class="chip">3 спальни</span>
+                <span class="chip">2 санузла</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p2">Подробнее</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-3.svg" alt="Плейсхолдер фото для MG-003"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-003 · Дом · Кутаиси</span>
+              <h3>Дом 4BR с садом</h3>
+              <div class="price">230,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">195 м²</span>
+                <span class="chip">4 спальни</span>
+                <span class="chip">Сад</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p3">Подробнее</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-4.svg" alt="Плейсхолдер фото для MG-004"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-004 · Квартира · Гори</span>
+              <h3>Уютная 1BR рядом со старым городом</h3>
+              <div class="price">72,500 GEL</div>
+              <div class="meta-row">
+                <span class="chip">52 м²</span>
+                <span class="chip">1 спальня</span>
+                <span class="chip">3 этаж</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p4">Подробнее</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-5.svg" alt="Плейсхолдер фото для MG-005"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-005 · Квартира · Рустави</span>
+              <h3>Современная студия в центре</h3>
+              <div class="price">54,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">39 м²</span>
+                <span class="chip">Студия</span>
+                <span class="chip">Лифт</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p5">Подробнее</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-6.svg" alt="Плейсхолдер фото для MG-006"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-006 · Вилла · Тбилиси</span>
+              <h3>Премиальная вилла на холме</h3>
+              <div class="price">410,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">210 м²</span>
+                <span class="chip">4 спальни</span>
+                <span class="chip">Свой двор</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p6">Подробнее</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Окна деталей объектов (чистый HTML/CSS через :target) -->
+
+      <section class="property-detail" id="p1" aria-label="Детали MG-001">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p1-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p1-title">MG-001 · Современная 2BR квартира в Ваке (Тбилиси)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Закрыть детали">Закрыть</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-1.svg" alt="Плейсхолдер фото MG-001"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">165,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Адрес (демо): Ваке, ул. Тамарашвили 120а · Построен в 2018 · Безопасный подъезд
+                </p>
+                <ul class="bullets">
+                  <li><b>Площадь</b> 78 м² · 6 этаж · Лифт</li>
+                  <li><b>Планировка</b> 2 спальни · 1 санузел · Просторная гостиная</li>
+                  <li><b>Плюсы</b> Панорамный балкон · Закреплённое парковочное место · Тихий двор</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Запросить просмотр</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Назад к списку</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Подсказка: укажите <b>MG-001</b> в сообщении, чтобы мы быстро нашли объект.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p2" aria-label="Детали MG-002">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p2-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p2-title">MG-002 · Вилла у моря с террасой (Батуми)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Закрыть детали">Закрыть</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-2.svg" alt="Плейсхолдер фото MG-002"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">280,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Адрес (демо): Батуми, прибрежный район · Участок 420 м² · Построен в 2020
+                </p>
+                <ul class="bullets">
+                  <li><b>Площадь</b> 132 м² + терраса · Частная парковка · Кладовая</li>
+                  <li><b>Планировка</b> 3 спальни · 2 санузла · Кухня-гостиная</li>
+                  <li><b>Плюсы</b> Терраса для ужинов на закате · Садовая дорожка · Тихие соседи</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Запросить просмотр</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Назад к списку</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Подсказка: укажите <b>MG-002</b> в сообщении.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p3" aria-label="Детали MG-003">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p3-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p3-title">MG-003 · Дом 4BR с садом (Кутаиси)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Закрыть детали">Закрыть</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-3.svg" alt="Плейсхолдер фото MG-003"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">230,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Адрес (демо): Кутаиси, зелёная зона · Участок 560 м² · Построен в 2016
+                </p>
+                <ul class="bullets">
+                  <li><b>Площадь</b> 195 м² · Сад и патио · Мастерская</li>
+                  <li><b>Планировка</b> 4 спальни · 2 санузла · Семейная столовая</li>
+                  <li><b>Плюсы</b> Фруктовые деревья (демо) · Простое обслуживание участка · Удобный заезд</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Запросить просмотр</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Назад к списку</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Подсказка: укажите <b>MG-003</b> в сообщении.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p4" aria-label="Детали MG-004">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p4-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p4-title">MG-004 · Уютная 1BR рядом со старым городом (Гори)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Закрыть детали">Закрыть</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-4.svg" alt="Плейсхолдер фото MG-004"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">72,500 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Адрес (демо): Гори, у старого города · Построен в 2014 · Вид во двор
+                </p>
+                <ul class="bullets">
+                  <li><b>Площадь</b> 52 м² · 3 этаж · Светлые окна</li>
+                  <li><b>Планировка</b> 1 спальня · 1 санузел · Компактная кухня</li>
+                  <li><b>Плюсы</b> Пешком до кафе · Тихая улица (демо) · Кладовой шкаф</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Запросить просмотр</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Назад к списку</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Подсказка: укажите <b>MG-004</b> в сообщении.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p5" aria-label="Детали MG-005">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p5-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p5-title">MG-005 · Современная студия в центре (Рустави)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Закрыть детали">Закрыть</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-5.svg" alt="Плейсхолдер фото MG-005"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">54,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Адрес (демо): Рустави, центр · Построен в 2019 · Дом с лифтом
+                </p>
+                <ul class="bullets">
+                  <li><b>Площадь</b> 39 м² · Формат студии · Невысокие платежи (демо)</li>
+                  <li><b>Планировка</b> Единое пространство · 1 санузел</li>
+                  <li><b>Плюсы</b> Для первого жилья · Рядом транспорт · Удобное хранение</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Запросить просмотр</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Назад к списку</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Подсказка: укажите <b>MG-005</b> в сообщении.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p6" aria-label="Детали MG-006">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p6-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p6-title">MG-006 · Премиальная вилла на холме (Тбилиси)</h3>
+              <a class="close-link" href="properties.html#top" aria-label="Закрыть детали">Закрыть</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-6.svg" alt="Плейсхолдер фото MG-006"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">410,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  Адрес (демо): Тбилиси, парк на холме · Участок 750 м² · Построен в 2017
+                </p>
+                <ul class="bullets">
+                  <li><b>Площадь</b> 210 м² · Собственный двор · Зона отдыха</li>
+                  <li><b>Планировка</b> 4 спальни · 3 санузла · Кабинет (демо)</li>
+                  <li><b>Плюсы</b> Панорама · Умная безопасность (демо) · Просторная терраса</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">Запросить просмотр</a>
+                  <a class="btn btn-ghost" href="properties.html#top">Назад к списку</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  Подсказка: укажите <b>MG-006</b> в сообщении.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <b>MyGeorgia Estate</b>
+          <div class="muted" style="margin-top:.25rem;">Просматривайте вымышленные объекты с деталями в модальном окне.</div>
+        </div>
+        <div class="footer-links" aria-label="Ссылки в подвале">
+          <a href="index.html">Главная</a>
+          <a href="about.html">О нас</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html">Контакты</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
