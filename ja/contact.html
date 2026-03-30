@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>お問い合わせ | MyGeorgia Estate</title>
+    <meta name="description" content="お問い合わせ（デモ）。フォーム送信は行われません。"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へスキップ</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MyGeorgia Estate ホーム">
+          <img src="../assets/logo.svg" alt="MyGeorgia Estate"/>
+          <div>
+            MyGeorgia Estate
+            <small>ジョージア全域の住まい</small>
+          </div>
+        </a>
+
+        <nav class="nav" aria-label="メインナビゲーション">
+          <a href="index.html">ホーム</a>
+          <a href="properties.html">物件</a>
+          <a href="about.html">会社情報</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html" aria-current="page">お問い合わせ</a>
+          <span class="muted" aria-hidden="true">|</span>
+          <a href="../en/contact.html" title="English">EN</a>
+          <a href="../ru/contact.html" title="Русский">RU</a>
+          <a href="../ja/contact.html" aria-current="page" title="日本語">日本語</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <section class="hero" style="margin-bottom: 1.4rem;">
+        <div class="hero-card">
+          <div class="eyebrow"><span class="dot" aria-hidden="true"></span> お問い合わせ · デモ</div>
+          <h1>内見の相談をする</h1>
+          <p>
+            これは静的デモページです。フォームは送信されません。実運用ではフォームサービスやバックエンドに接続してください。
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="properties.html#top">物件へ戻る</a>
+            <a class="btn btn-ghost" href="#contact-form">メッセージ</a>
+          </div>
+        </div>
+
+        <aside class="hero-aside">
+          <b>連絡先（デモ）</b>
+          <div class="meta-row" style="margin-top: .9rem;">
+            <span class="chip">電話: +995 555 01 23 45</span>
+            <span class="chip">Email: hello@mygeorgiaestate.example</span>
+            <span class="chip">WhatsApp: +995 555 01 23 45</span>
+          </div>
+          <div class="notice" style="margin-top: 1rem;">
+            営業時間（デモ）: 月〜土 10:00–18:00
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-body">
+              <b>メッセージを送る</b>
+              <p class="muted" style="margin: .45rem 0 0;">
+                希望都市と予算を入力してください。物件を見た場合はコード（例: <b>MG-002</b>）を入れてください。
+              </p>
+
+              <form action="#" method="post" id="contact-form" aria-label="お問い合わせフォーム（デモ）">
+                <div class="field">
+                  <label for="name">お名前</label>
+                  <input id="name" name="name" placeholder="例: 山田 太郎" required/>
+                </div>
+                <div class="field">
+                  <label for="email">メール</label>
+                  <input id="email" name="email" type="email" placeholder="taro@example.com" required/>
+                </div>
+                <div class="field">
+                  <label for="phone">電話（任意）</label>
+                  <input id="phone" name="phone" placeholder="+995 ..."/>
+                </div>
+                <div class="field">
+                  <label for="city">希望都市</label>
+                  <select id="city" name="city">
+                    <option value="Tbilisi">トビリシ</option>
+                    <option value="Batumi">バトゥミ</option>
+                    <option value="Kutaisi">クタイシ</option>
+                    <option value="Gori">ゴリ</option>
+                    <option value="Rustavi">ルスタヴィ</option>
+                    <option value="Any" selected>指定なし</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budget">予算（GEL）</label>
+                  <select id="budget" name="budget">
+                    <option value="Any" selected>指定なし</option>
+                    <option value="Under100k">100,000未満</option>
+                    <option value="100k-200k">100,000–200,000</option>
+                    <option value="200k-350k">200,000–350,000</option>
+                    <option value="350k+">350,000+</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="propertyCode">物件コード（任意）</label>
+                  <input id="propertyCode" name="propertyCode" placeholder="MG-001, MG-002..."/>
+                </div>
+                <div class="field">
+                  <label for="message">内容</label>
+                  <textarea id="message" name="message" placeholder="時期、部屋数、重視点など"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">送信（デモ）</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <b>オフィスとエリア</b>
+              <p class="muted" style="margin: .45rem 0 0;">
+                デモの地図プレースホルダーです。必要に応じて Google/Mapbox などに差し替え可能です。
+              </p>
+
+              <div class="notice" style="height: 220px; display:flex; align-items:center; justify-content:center; text-align:center; margin-top: 1rem;">
+                地図プレースホルダー
+              </div>
+
+              <div class="section" style="margin-top: 1.25rem;">
+                <b>次のステップ</b>
+                <div class="bullets" style="margin-top: .8rem;">
+                  <div class="notice" style="margin-top: .7rem;">1) 条件に合う候補と内見案内を返信します。</div>
+                  <div class="notice" style="margin-top: .7rem;">2) 希望都市で内見を手配します。</div>
+                  <div class="notice" style="margin-top: .7rem;">3) 比較・意思決定をサポートします。</div>
+                </div>
+              </div>
+
+              <p class="muted" style="margin-top: 1rem;">※デモのため送信は行われません。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <b>MyGeorgia Estate</b>
+          <div class="muted" style="margin-top:.25rem;">お問い合わせ（デモ）。</div>
+        </div>
+        <div class="footer-links" aria-label="フッターリンク">
+          <a href="index.html">ホーム</a>
+          <a href="properties.html">物件</a>
+          <a href="about.html">会社情報</a>
+          <a href="faqs.html">FAQ</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+

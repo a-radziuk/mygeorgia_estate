@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>物件一覧 | MyGeorgia Estate</title>
+    <meta name="description" content="ジョージア（グルジア）の架空物件一覧。カードをクリックすると詳細（HTML/CSSのみ）を表示します。"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へスキップ</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="MyGeorgia Estate ホーム">
+          <img src="../assets/logo.svg" alt="MyGeorgia Estate"/>
+          <div>
+            MyGeorgia Estate
+            <small>ジョージア全域の住まい</small>
+          </div>
+        </a>
+
+        <nav class="nav" aria-label="メインナビゲーション">
+          <a href="index.html">ホーム</a>
+          <a href="properties.html" aria-current="page">物件</a>
+          <a href="about.html">会社情報</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+          <span class="muted" aria-hidden="true">|</span>
+          <a href="../en/properties.html" title="English">EN</a>
+          <a href="../ru/properties.html" title="Русский">RU</a>
+          <a href="../ja/properties.html" aria-current="page" title="日本語">日本語</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <div id="top" aria-hidden="true"></div>
+
+      <section class="hero" style="margin-bottom: 1.4rem;">
+        <div class="hero-card">
+          <div class="eyebrow"><span class="dot" aria-hidden="true"></span> 厳選物件 · デモデータ</div>
+          <h1>ジョージアの物件を探す</h1>
+          <p>
+            「詳細を見る」をクリックすると、CSS <code>:target</code> によるモーダル表示が開きます。
+            掲載内容はすべてデモ用の架空データです。
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#property-grid">全物件を見る</a>
+            <a class="btn btn-ghost" href="contact.html#contact-form">内見を依頼する</a>
+          </div>
+        </div>
+
+        <aside class="hero-aside">
+          <b>デモフィルター</b>
+          <p class="muted" style="margin: .6rem 0 0;">
+            以下の操作は見た目のみです。実際の絞り込みが必要なら JavaScript / バックエンドを追加できます。
+          </p>
+          <div style="margin-top: 1rem;">
+            <div class="field">
+              <label for="search">検索</label>
+              <input id="search" name="search" placeholder="例: Tbilisi, villa, terrace（demo）" disabled/>
+            </div>
+            <div class="field">
+              <label for="budget">予算</label>
+              <select id="budget" name="budget" disabled>
+                <option>指定なし</option>
+              </select>
+            </div>
+          </div>
+          <div class="notice" style="margin-top: 1rem;">
+            ヒント: 物件コード（例: <b>MG-003</b>）をメッセージに入れるとスムーズです。
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" aria-labelledby="property-grid">
+        <div class="section-title">
+          <h2 id="property-grid">物件一覧</h2>
+          <p>アパート・ヴィラ・戸建ての例（全6件）。価格は GEL 表記です。</p>
+        </div>
+
+        <div class="grid grid-3" role="list">
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-1.svg" alt="MG-001 のプレースホルダー画像"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-001 · アパート · トビリシ</span>
+              <h3>ヴァケのモダン2BR</h3>
+              <div class="price">165,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">78 m²</span>
+                <span class="chip">2ベッド</span>
+                <span class="chip">1バス</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p1">詳細を見る</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-2.svg" alt="MG-002 のプレースホルダー画像"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-002 · ヴィラ · バトゥミ</span>
+              <h3>海辺のテラス付きヴィラ</h3>
+              <div class="price">280,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">132 m²</span>
+                <span class="chip">3ベッド</span>
+                <span class="chip">2バス</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p2">詳細を見る</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-3.svg" alt="MG-003 のプレースホルダー画像"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-003 · 戸建て · クタイシ</span>
+              <h3>庭付き4BRハウス</h3>
+              <div class="price">230,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">195 m²</span>
+                <span class="chip">4ベッド</span>
+                <span class="chip">庭</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p3">詳細を見る</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-4.svg" alt="MG-004 のプレースホルダー画像"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-004 · アパート · ゴリ</span>
+              <h3>旧市街近くの1BR</h3>
+              <div class="price">72,500 GEL</div>
+              <div class="meta-row">
+                <span class="chip">52 m²</span>
+                <span class="chip">1ベッド</span>
+                <span class="chip">3階</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p4">詳細を見る</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-5.svg" alt="MG-005 のプレースホルダー画像"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-005 · アパート · ルスタヴィ</span>
+              <h3>中心部のモダンスタジオ</h3>
+              <div class="price">54,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">39 m²</span>
+                <span class="chip">スタジオ</span>
+                <span class="chip">エレベーター</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p5">詳細を見る</a>
+            </div>
+          </article>
+
+          <article class="card" role="listitem">
+            <div class="property-media">
+              <img src="../assets/property-6.svg" alt="MG-006 のプレースホルダー画像"/>
+            </div>
+            <div class="card-body">
+              <span class="kicker">MG-006 · ヴィラ · トビリシ</span>
+              <h3>丘の上のラグジュアリーヴィラ</h3>
+              <div class="price">410,000 GEL</div>
+              <div class="meta-row">
+                <span class="chip">210 m²</span>
+                <span class="chip">4ベッド</span>
+                <span class="chip">専用庭</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <a class="btn btn-primary" href="#p6">詳細を見る</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 物件詳細（HTML/CSSのみ :target） -->
+
+      <section class="property-detail" id="p1" aria-label="MG-001 詳細">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p1-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p1-title">MG-001 · ヴァケのモダン2BR（トビリシ）</h3>
+              <a class="close-link" href="properties.html#top" aria-label="閉じる">閉じる</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-1.svg" alt="MG-001 のプレースホルダー画像"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">165,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  住所（デモ）: Vake, 120a Tamarashvili St · 2018年築 · セキュアエントランス
+                </p>
+                <ul class="bullets">
+                  <li><b>面積</b> 78 m² · 6階 · エレベーター</li>
+                  <li><b>間取り</b> 2ベッドルーム · 1バスルーム · 広めのリビング</li>
+                  <li><b>ポイント</b> 眺望バルコニー · 専用駐車枠 · 静かな中庭</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">内見を依頼</a>
+                  <a class="btn btn-ghost" href="properties.html#top">一覧へ戻る</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">
+                  ヒント: メッセージに <b>MG-001</b> を入れてください。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p2" aria-label="MG-002 詳細">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p2-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p2-title">MG-002 · 海辺のテラス付きヴィラ（バトゥミ）</h3>
+              <a class="close-link" href="properties.html#top" aria-label="閉じる">閉じる</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-2.svg" alt="MG-002 のプレースホルダー画像"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">280,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  住所（デモ）: Batumi, Seaside District · 土地 420 m² · 2020年築
+                </p>
+                <ul class="bullets">
+                  <li><b>面積</b> 132 m² + テラス · 専用駐車 · 収納</li>
+                  <li><b>間取り</b> 3ベッドルーム · 2バスルーム · オープンキッチン</li>
+                  <li><b>ポイント</b> サンセットテラス · ガーデン小径 · 静かな環境</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">内見を依頼</a>
+                  <a class="btn btn-ghost" href="properties.html#top">一覧へ戻る</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">ヒント: <b>MG-002</b> を記載してください。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p3" aria-label="MG-003 詳細">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p3-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p3-title">MG-003 · 庭付き4BRハウス（クタイシ）</h3>
+              <a class="close-link" href="properties.html#top" aria-label="閉じる">閉じる</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-3.svg" alt="MG-003 のプレースホルダー画像"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">230,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  住所（デモ）: Kutaisi, Green Belt · 土地 560 m² · 2016年築
+                </p>
+                <ul class="bullets">
+                  <li><b>面積</b> 195 m² · 庭 & パティオ · 作業スペース</li>
+                  <li><b>間取り</b> 4ベッドルーム · 2バスルーム · ダイニング</li>
+                  <li><b>ポイント</b> 果樹（デモ） · 手入れしやすい庭 · 安全なドライブウェイ</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">内見を依頼</a>
+                  <a class="btn btn-ghost" href="properties.html#top">一覧へ戻る</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">ヒント: <b>MG-003</b> を記載してください。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p4" aria-label="MG-004 詳細">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p4-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p4-title">MG-004 · 旧市街近くの1BR（ゴリ）</h3>
+              <a class="close-link" href="properties.html#top" aria-label="閉じる">閉じる</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-4.svg" alt="MG-004 のプレースホルダー画像"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">72,500 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  住所（デモ）: Gori, Old Town Edge · 2014年築 · 中庭ビュー
+                </p>
+                <ul class="bullets">
+                  <li><b>面積</b> 52 m² · 3階 · 明るい採光</li>
+                  <li><b>間取り</b> 1ベッドルーム · 1バスルーム · コンパクトキッチン</li>
+                  <li><b>ポイント</b> カフェ徒歩圏 · 静かな通り（デモ） · 収納</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">内見を依頼</a>
+                  <a class="btn btn-ghost" href="properties.html#top">一覧へ戻る</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">ヒント: <b>MG-004</b> を記載してください。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p5" aria-label="MG-005 詳細">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p5-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p5-title">MG-005 · 中心部のモダンスタジオ（ルスタヴィ）</h3>
+              <a class="close-link" href="properties.html#top" aria-label="閉じる">閉じる</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-5.svg" alt="MG-005 のプレースホルダー画像"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">54,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  住所（デモ）: Rustavi, City Center · 2019年築 · エレベーターあり
+                </p>
+                <ul class="bullets">
+                  <li><b>面積</b> 39 m² · スタジオ · 月額費用低め（デモ）</li>
+                  <li><b>間取り</b> ワンルーム · 1バスルーム</li>
+                  <li><b>ポイント</b> 初めての購入に · 交通至近 · 収納が実用的</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">内見を依頼</a>
+                  <a class="btn btn-ghost" href="properties.html#top">一覧へ戻る</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">ヒント: <b>MG-005</b> を記載してください。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-detail" id="p6" aria-label="MG-006 詳細">
+        <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="p6-title">
+          <div class="modal-inner">
+            <div class="modal-top">
+              <h3 id="p6-title">MG-006 · 丘の上のラグジュアリーヴィラ（トビリシ）</h3>
+              <a class="close-link" href="properties.html#top" aria-label="閉じる">閉じる</a>
+            </div>
+            <div class="modal-body">
+              <div class="modal-media">
+                <img src="../assets/property-6.svg" alt="MG-006 のプレースホルダー画像"/>
+              </div>
+              <div class="modal-content">
+                <div class="price">410,000 GEL</div>
+                <p class="muted" style="margin: .4rem 0 .9rem;">
+                  住所（デモ）: Tbilisi, Hillside Park · 土地 750 m² · 2017年築
+                </p>
+                <ul class="bullets">
+                  <li><b>面積</b> 210 m² · 専用庭 · アウトドア席</li>
+                  <li><b>間取り</b> 4ベッドルーム · 3バスルーム · 書斎（デモ）</li>
+                  <li><b>ポイント</b> 眺望 · スマートセキュリティ（デモ） · 広いテラス</li>
+                </ul>
+                <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="contact.html#contact-form">内見を依頼</a>
+                  <a class="btn btn-ghost" href="properties.html#top">一覧へ戻る</a>
+                </div>
+                <p class="muted" style="margin: .85rem 0 0;">ヒント: <b>MG-006</b> を記載してください。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <b>MyGeorgia Estate</b>
+          <div class="muted" style="margin-top:.25rem;">架空の物件をモーダル詳細付きで閲覧できます。</div>
+        </div>
+        <div class="footer-links" aria-label="フッターリンク">
+          <a href="index.html">ホーム</a>
+          <a href="about.html">会社情報</a>
+          <a href="faqs.html">FAQ</a>
+          <a href="contact.html">お問い合わせ</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
