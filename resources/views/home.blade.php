@@ -48,6 +48,13 @@
             <span class="kicker">{{ $listing['kicker'] }}</span>
             <h3>{{ $listing['title'] }}</h3>
             <div class="price">{{ $listing['price'] }}</div>
+            @if (!empty($listing['price_per_sqm']) || !empty($listing['district']))
+              <div class="listing-card-sub muted">
+                @if (!empty($listing['price_per_sqm'])){{ $listing['price_per_sqm'] }}@endif
+                @if (!empty($listing['price_per_sqm']) && !empty($listing['district'])) · @endif
+                @if (!empty($listing['district'])){{ $listing['district'] }}@endif
+              </div>
+            @endif
             <div class="meta-row">
               @foreach ($listing['chips'] as $chip)
                 <span class="chip">{{ $chip }}</span>

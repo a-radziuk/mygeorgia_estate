@@ -95,6 +95,13 @@ return [
             'close_label' => 'Закрыть детали',
             'request_viewing' => 'Запросить просмотр',
             'back_listings' => 'Назад к списку',
+            'label_address' => 'Адрес',
+            'label_district' => 'Район',
+            'label_price_per_sqm' => 'Цена за м²',
+            'label_developer' => 'Застройщик',
+            'label_built_year' => 'Год постройки',
+            'label_map' => 'На карте',
+            'map_open_external' => 'Открыть в Google Maps',
         ],
         'about' => [
             'hero_eyebrow' => 'О нас · Демо-контент',

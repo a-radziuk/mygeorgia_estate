@@ -49,10 +49,17 @@
           <div class="property-media">
             <img src="{{ asset('assets/'.$listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
           </div>
-          <div class="card-body">
+            <div class="card-body">
             <span class="kicker">{{ $listing['kicker'] }}</span>
             <h3>{{ $listing['title'] }}</h3>
             <div class="price">{{ $listing['price'] }}</div>
+            @if (!empty($listing['price_per_sqm']) || !empty($listing['district']))
+              <div class="listing-card-sub muted">
+                @if (!empty($listing['price_per_sqm'])){{ $listing['price_per_sqm'] }}@endif
+                @if (!empty($listing['price_per_sqm']) && !empty($listing['district'])) · @endif
+                @if (!empty($listing['district'])){{ $listing['district'] }}@endif
+              </div>
+            @endif
             <div class="meta-row">
               @foreach ($listing['chips'] as $chip)
                 <span class="chip">{{ $chip }}</span>
@@ -123,7 +130,61 @@
             </div>
             <div class="modal-content">
               <div class="price">{{ $listing['price'] }}</div>
-              <p class="muted" style="margin: .4rem 0 .9rem;">{{ $listing['address'] }}</p>
+
+              <dl class="listing-specs">
+                @if (!empty($listing['price_per_sqm']))
+                  <div class="listing-specs-row">
+                    <dt>{{ $p['label_price_per_sqm'] }}</dt>
+                    <dd>{{ $listing['price_per_sqm'] }}</dd>
+                  </div>
+                @endif
+                @if (!empty($listing['address_line']))
+                  <div class="listing-specs-row">
+                    <dt>{{ $p['label_address'] }}</dt>
+                    <dd>{{ $listing['address_line'] }}</dd>
+                  </div>
+                @endif
+                @if (!empty($listing['district']))
+                  <div class="listing-specs-row">
+                    <dt>{{ $p['label_district'] }}</dt>
+                    <dd>{{ $listing['district'] }}</dd>
+                  </div>
+                @endif
+                @if (!empty($listing['developer']))
+                  <div class="listing-specs-row">
+                    <dt>{{ $p['label_developer'] }}</dt>
+                    <dd>{{ $listing['developer'] }}</dd>
+                  </div>
+                @endif
+                @if (!empty($listing['built_year']))
+                  <div class="listing-specs-row">
+                    <dt>{{ $p['label_built_year'] }}</dt>
+                    <dd>{{ $listing['built_year'] }}</dd>
+                  </div>
+                @endif
+              </dl>
+
+              @if (!empty($listing['latitude']) && !empty($listing['longitude']))
+                <div class="listing-map">
+                  <div class="listing-map-label muted">{{ $p['label_map'] }}</div>
+                  <div class="listing-map-frame">
+                    <iframe
+                      title="{{ $p['label_map'] }} — {{ $listing['code'] }}"
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade"
+                      src="https://www.google.com/maps?q={{ $listing['latitude'] }},{{ $listing['longitude'] }}&z=15&output=embed"
+                    ></iframe>
+                  </div>
+                  <a
+                    class="listing-map-external"
+                    href="https://www.google.com/maps/search/?api=1&amp;query={{ $listing['latitude'] }},{{ $listing['longitude'] }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >{{ $p['map_open_external'] }}</a>
+                </div>
+              @endif
+
+              <p class="muted listing-notes">{{ $listing['address'] }}</p>
               <ul class="bullets">
                 @foreach ($listing['bullets'] as $b)
                   <li><b>{{ $b['label'] }}</b> {{ $b['text'] }}</li>

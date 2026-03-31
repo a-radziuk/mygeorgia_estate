@@ -95,6 +95,13 @@ return [
             'close_label' => '閉じる',
             'request_viewing' => '内見を依頼',
             'back_listings' => '一覧へ戻る',
+            'label_address' => '住所',
+            'label_district' => 'エリア',
+            'label_price_per_sqm' => '㎡単価',
+            'label_developer' => 'デベロッパー',
+            'label_built_year' => '築年',
+            'label_map' => '地図',
+            'map_open_external' => 'Googleマップで開く',
         ],
         'about' => [
             'hero_eyebrow' => '会社情報 · デモ',

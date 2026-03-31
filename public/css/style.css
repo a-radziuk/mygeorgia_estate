@@ -468,6 +468,73 @@ main{ padding: 2.2rem 0 3.2rem; }
 .modal-content{
   padding: 1.1rem 1.1rem 1.2rem;
 }
+.listing-card-sub{
+  font-size: .86rem;
+  margin-top: .35rem;
+  line-height: 1.35;
+}
+.listing-specs{
+  margin: .85rem 0 0;
+  padding: 0;
+}
+.listing-specs-row{
+  display: grid;
+  grid-template-columns: minmax(7rem, 38%) 1fr;
+  gap: .5rem .75rem;
+  align-items: baseline;
+  padding: .45rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.listing-specs-row:last-child{
+  border-bottom: 0;
+}
+.listing-specs dt{
+  margin: 0;
+  font-weight: 800;
+  font-size: .82rem;
+  color: rgba(255,255,255,.72);
+}
+.listing-specs dd{
+  margin: 0;
+  font-size: .92rem;
+}
+.listing-notes{
+  margin: .85rem 0 .9rem;
+  font-size: .92rem;
+}
+.listing-map{
+  margin: 1rem 0 0;
+}
+.listing-map-label{
+  font-size: .82rem;
+  font-weight: 800;
+  margin-bottom: .45rem;
+}
+.listing-map-frame{
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  aspect-ratio: 16 / 10;
+  max-height: 200px;
+}
+.listing-map-frame iframe{
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  min-height: 180px;
+}
+.listing-map-external{
+  display: inline-block;
+  margin-top: .55rem;
+  font-size: .86rem;
+  font-weight: 800;
+  color: var(--brand);
+}
+.listing-map-external:hover{
+  text-decoration: underline;
+}
 .bullets{
   margin: .6rem 0 0;
   padding: 0;

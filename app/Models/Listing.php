@@ -11,6 +11,7 @@ class Listing extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'is_mock',
         'locale',
         'listing_index',
         'code',
@@ -18,7 +19,14 @@ class Listing extends Model
         'image_alt',
         'kicker',
         'title',
+        'address_line',
+        'district',
+        'latitude',
+        'longitude',
+        'developer',
+        'built_year',
         'price',
+        'price_per_sqm',
         'chips',
         'modal_anchor',
         'modal_title',
@@ -37,12 +45,20 @@ class Listing extends Model
         $first = $images[0] ?? ['file' => '', 'alt' => ''];
 
         return [
+            'is_mock' => (bool) $this->is_mock,
             'images' => $images,
             'image' => $first['file'],
             'image_alt' => $first['alt'],
             'kicker' => $this->kicker,
             'title' => $this->title,
+            'address_line' => $this->address_line,
+            'district' => $this->district,
+            'latitude' => $this->latitude !== null ? (float) $this->latitude : null,
+            'longitude' => $this->longitude !== null ? (float) $this->longitude : null,
+            'developer' => $this->developer,
+            'built_year' => $this->built_year,
             'price' => $this->price,
+            'price_per_sqm' => $this->price_per_sqm,
             'chips' => $this->chips,
             'modal_anchor' => $this->modal_anchor,
             'modal_title' => $this->modal_title,
@@ -56,7 +72,9 @@ class Listing extends Model
     protected function casts(): array
     {
         return [
+            'is_mock' => 'boolean',
             'listing_index' => 'integer',
+            'built_year' => 'integer',
             'chips' => 'array',
             'bullets' => 'array',
             'images' => 'array',

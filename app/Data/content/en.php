@@ -105,6 +105,13 @@ return [
             'close_label' => 'Close details',
             'request_viewing' => 'Request viewing',
             'back_listings' => 'Back to listings',
+            'label_address' => 'Address',
+            'label_district' => 'District',
+            'label_price_per_sqm' => 'Price per m²',
+            'label_developer' => 'Developer',
+            'label_built_year' => 'Year built',
+            'label_map' => 'Location',
+            'map_open_external' => 'Open in Google Maps',
         ],
         'about' => [
             'hero_eyebrow' => 'About us · Demo content',
