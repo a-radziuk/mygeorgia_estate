@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Data;
 
+use App\Models\Listing;
+
 final class SiteRepository
 {
     /** @return list<string> */
@@ -29,6 +31,25 @@ final class SiteRepository
 
         $path = __DIR__.'/content/'.$locale.'.php';
 
-        return file_exists($path) ? require $path : require __DIR__.'/content/en.php';
+        /** @var array<string, mixed> $data */
+        $data = file_exists($path) ? require $path : require __DIR__.'/content/en.php';
+
+        $data['listings'] = self::listingsKeyedByIndex($locale);
+
+        return $data;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private static function listingsKeyedByIndex(string $locale): array
+    {
+        return Listing::query()
+            ->where('locale', $locale)
+            ->orderBy('listing_index')
+            ->get()
+            ->keyBy('listing_index')
+            ->map(fn (Listing $listing) => $listing->toSiteArray())
+            ->all();
     }
 }
