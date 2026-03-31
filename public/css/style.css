@@ -465,6 +465,23 @@ main{ padding: 2.2rem 0 3.2rem; }
   background: var(--brand);
   border-color: rgba(124,219,255,.65);
 }
+.listing-developer-description{
+  margin-top: 1rem;
+  padding-top: .9rem;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+.listing-developer-heading{
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: .55rem;
+}
+.listing-developer-description p{
+  margin: 0;
+  font-size: .92rem;
+  line-height: 1.55;
+  color: rgba(255,255,255,.90);
+}
 .modal-content{
   padding: 1.1rem 1.1rem 1.2rem;
 }

@@ -99,6 +99,7 @@ return [
             'label_district' => 'エリア',
             'label_price_per_sqm' => '㎡単価',
             'label_developer' => 'デベロッパー',
+            'label_description_by_developer' => 'デベロッパーからの説明',
             'label_built_year' => '築年',
             'label_map' => '地図',
             'map_open_external' => 'Googleマップで開く',

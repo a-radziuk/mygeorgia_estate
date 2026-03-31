@@ -109,6 +109,7 @@ return [
             'label_district' => 'District',
             'label_price_per_sqm' => 'Price per m²',
             'label_developer' => 'Developer',
+            'label_description_by_developer' => 'From the developer',
             'label_built_year' => 'Year built',
             'label_map' => 'Location',
             'map_open_external' => 'Open in Google Maps',

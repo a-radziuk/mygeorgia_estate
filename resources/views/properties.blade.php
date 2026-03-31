@@ -47,7 +47,7 @@
       @foreach ($site['listings'] as $listing)
         <article class="card" role="listitem">
           <div class="property-media">
-            <img src="{{ asset('assets/'.$listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
+            <img src="{{ \App\Support\ListingMedia::url($listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
           </div>
             <div class="card-body">
             <span class="kicker">{{ $listing['kicker'] }}</span>
@@ -86,7 +86,7 @@
             <div class="modal-media">
               @php
                 $slides = array_map(fn (array $img) => [
-                  'src' => asset('assets/'.$img['file']),
+                  'src' => \App\Support\ListingMedia::url($img['file']),
                   'alt' => $img['alt'] ?? '',
                 ], $listing['images'] ?? []);
               @endphp
@@ -125,6 +125,12 @@
                       </div>
                     </div>
                   @endif
+                </div>
+              @endif
+              @if (!empty($listing['description_by_developer']))
+                <div class="listing-developer-description">
+                  <div class="listing-developer-heading muted">{{ $p['label_description_by_developer'] }}</div>
+                  <p>{{ $listing['description_by_developer'] }}</p>
                 </div>
               @endif
             </div>

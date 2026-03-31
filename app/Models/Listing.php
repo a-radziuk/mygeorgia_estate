@@ -11,6 +11,7 @@ class Listing extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'korter_object_id',
         'is_mock',
         'locale',
         'listing_index',
@@ -25,6 +26,7 @@ class Listing extends Model
         'longitude',
         'developer',
         'built_year',
+        'description_by_developer',
         'price',
         'price_per_sqm',
         'chips',
@@ -57,6 +59,7 @@ class Listing extends Model
             'longitude' => $this->longitude !== null ? (float) $this->longitude : null,
             'developer' => $this->developer,
             'built_year' => $this->built_year,
+            'description_by_developer' => $this->description_by_developer,
             'price' => $this->price,
             'price_per_sqm' => $this->price_per_sqm,
             'chips' => $this->chips,

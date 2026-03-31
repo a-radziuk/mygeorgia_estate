@@ -42,7 +42,7 @@
         @php $listing = $site['listings'][$id]; @endphp
         <article class="card" role="listitem">
           <div class="property-media">
-            <img src="{{ asset('assets/'.$listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
+            <img src="{{ \App\Support\ListingMedia::url($listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
           </div>
           <div class="card-body">
             <span class="kicker">{{ $listing['kicker'] }}</span>
