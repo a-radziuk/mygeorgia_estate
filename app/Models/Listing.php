@@ -14,7 +14,7 @@ class Listing extends Model
         'locale',
         'listing_index',
         'code',
-        'image',
+        'images',
         'image_alt',
         'kicker',
         'title',
@@ -32,9 +32,14 @@ class Listing extends Model
      */
     public function toSiteArray(): array
     {
+        /** @var list<array{file: string, alt: string}> $images */
+        $images = $this->images ?? [];
+        $first = $images[0] ?? ['file' => '', 'alt' => ''];
+
         return [
-            'image' => $this->image,
-            'image_alt' => $this->image_alt,
+            'images' => $images,
+            'image' => $first['file'],
+            'image_alt' => $first['alt'],
             'kicker' => $this->kicker,
             'title' => $this->title,
             'price' => $this->price,
@@ -54,6 +59,7 @@ class Listing extends Model
             'listing_index' => 'integer',
             'chips' => 'array',
             'bullets' => 'array',
+            'images' => 'array',
         ];
     }
 }

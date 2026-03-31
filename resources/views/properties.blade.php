@@ -77,7 +77,49 @@
           </div>
           <div class="modal-body">
             <div class="modal-media">
-              <img src="{{ asset('assets/'.$listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
+              @php
+                $slides = array_map(fn (array $img) => [
+                  'src' => asset('assets/'.$img['file']),
+                  'alt' => $img['alt'] ?? '',
+                ], $listing['images'] ?? []);
+              @endphp
+              @if (count($slides) > 0)
+                <div
+                  class="modal-gallery"
+                  data-images="{{ e(json_encode($slides)) }}"
+                  data-counter-template="{{ $p['gallery_counter'] }}"
+                  tabindex="-1"
+                >
+                  <div class="modal-gallery-viewport">
+                    <img
+                      class="modal-gallery-img"
+                      src="{{ $slides[0]['src'] }}"
+                      alt="{{ $slides[0]['alt'] }}"
+                      loading="lazy"
+                    />
+                    @if (count($slides) > 1)
+                      <button type="button" class="modal-gallery-nav modal-gallery-prev" aria-label="{{ $p['gallery_prev'] }}">‹</button>
+                      <button type="button" class="modal-gallery-nav modal-gallery-next" aria-label="{{ $p['gallery_next'] }}">›</button>
+                    @endif
+                  </div>
+                  @if (count($slides) > 1)
+                    <div class="modal-gallery-toolbar">
+                      <span class="modal-gallery-counter muted"></span>
+                      <div class="modal-gallery-dots" role="group" aria-label="{{ $listing['code'] }}">
+                        @foreach ($slides as $i => $slide)
+                          <button
+                            type="button"
+                            class="modal-gallery-dot{{ $i === 0 ? ' is-active' : '' }}"
+                            data-index="{{ $i }}"
+                            aria-current="{{ $i === 0 ? 'true' : 'false' }}"
+                            aria-label="{{ $slide['alt'] }} ({{ $i + 1 }}/{{ count($slides) }})"
+                          ></button>
+                        @endforeach
+                      </div>
+                    </div>
+                  @endif
+                </div>
+              @endif
             </div>
             <div class="modal-content">
               <div class="price">{{ $listing['price'] }}</div>
@@ -99,3 +141,92 @@
     </section>
   @endforeach
 @endsection
+
+@push('scripts')
+  <script>
+    (function () {
+      const galleries = new Map();
+
+
+      function parseImages(root) {
+        try {
+          return JSON.parse(root.dataset.images.replace(/&quot;/gi, '"') || '[]');
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function initGallery(root) {
+        const data = parseImages(root);
+        if (!data.length) return;
+
+        const img = root.querySelector('.modal-gallery-img');
+        const prev = root.querySelector('.modal-gallery-prev');
+        const next = root.querySelector('.modal-gallery-next');
+        const counter = root.querySelector('.modal-gallery-counter');
+        const dots = root.querySelectorAll('.modal-gallery-dot');
+        const tpl = root.dataset.counterTemplate || 'Image :current of :total';
+
+        let idx = 0;
+
+        function show(i) {
+          idx = (i + data.length) % data.length;
+          const s = data[idx];
+          img.src = s.src;
+          img.alt = s.alt;
+          if (counter) {
+            counter.textContent = tpl
+              .replace(':current', String(idx + 1))
+              .replace(':total', String(data.length));
+          }
+          dots.forEach(function (d, di) {
+            d.classList.toggle('is-active', di === idx);
+            d.setAttribute('aria-current', di === idx ? 'true' : 'false');
+          });
+        }
+
+        prev?.addEventListener('click', function () { show(idx - 1); });
+        next?.addEventListener('click', function () { show(idx + 1); });
+        dots.forEach(function (d) {
+          d.addEventListener('click', function () {
+            show(parseInt(d.getAttribute('data-index') || '0', 10));
+          });
+        });
+
+        root.addEventListener('keydown', function (e) {
+          if (data.length < 2) return;
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            show(idx - 1);
+          }
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            show(idx + 1);
+          }
+        });
+
+        galleries.set(root, show);
+        show(0);
+      }
+
+      function resetVisibleGallery() {
+        const id = location.hash.replace(/^#/, '');
+        if (!/^p\d+$/.test(id)) return;
+        const section = document.getElementById(id);
+        const g = section && section.querySelector('.modal-gallery');
+        if (g && galleries.has(g)) {
+          galleries.get(g)(0);
+          g.focus({ preventScroll: true });
+        }
+      }
+
+      document.querySelectorAll('.modal-gallery').forEach(initGallery);
+      window.addEventListener('hashchange', resetVisibleGallery);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', resetVisibleGallery);
+      } else {
+        resetVisibleGallery();
+      }
+    })();
+  </script>
+@endpush
