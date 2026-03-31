@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Data\SiteRepository;
+use App\Models\Listing;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -17,12 +18,45 @@ class SiteController extends Controller
 
     public function home(string $locale): View
     {
-        return $this->render($locale, 'home');
+        if (! in_array($locale, SiteRepository::locales(), true)) {
+            abort(404);
+        }
+
+        $site = SiteRepository::forLocale($locale);
+        $featuredListingPages = [];
+        foreach ($site['featured_ids'] as $id) {
+            $featuredListingPages[(int) $id] = SiteRepository::listingPageForIndex($locale, (int) $id);
+        }
+
+        return view('home', [
+            'locale' => $locale,
+            'page' => 'home',
+            'site' => $site,
+            'featuredListingPages' => $featuredListingPages,
+        ]);
     }
 
     public function properties(string $locale): View
     {
-        return $this->render($locale, 'properties');
+        if (! in_array($locale, SiteRepository::locales(), true)) {
+            abort(404);
+        }
+
+        $site = SiteRepository::forLocale($locale);
+        $listingsPaginator = Listing::query()
+            ->where('locale', $locale)
+            ->orderBy('listing_index')
+            ->paginate(SiteRepository::LISTINGS_PER_PAGE)
+            ->withQueryString()
+            ->fragment('property-grid')
+            ->through(fn (Listing $listing) => $listing->toSiteArray());
+
+        return view('properties', [
+            'locale' => $locale,
+            'page' => 'properties',
+            'site' => $site,
+            'listingsPaginator' => $listingsPaginator,
+        ]);
     }
 
     public function about(string $locale): View

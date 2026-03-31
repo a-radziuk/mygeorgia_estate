@@ -4,7 +4,13 @@
 @section('description', $site['meta']['properties']['description'])
 
 @section('content')
-  @php $p = $site['pages']['properties']; @endphp
+  @php
+    $p = $site['pages']['properties'];
+    $propertiesIndexHref = route('site.properties', array_filter([
+      'locale' => $locale,
+      'page' => request()->integer('page', 1) > 1 ? request()->integer('page') : null,
+    ], fn ($v) => $v !== null && $v !== ''));
+  @endphp
   <div id="top" aria-hidden="true"></div>
 
   <section class="hero" style="margin-bottom: 1.4rem;">
@@ -40,11 +46,20 @@
   <section class="section" aria-labelledby="property-grid">
     <div class="section-title">
       <h2 id="property-grid">{{ $p['section_title'] }}</h2>
-      <p>{{ $p['section_subtitle'] }}</p>
+      <p>
+        @if ($listingsPaginator->total() > 0)
+          {{ str_replace([':from', ':to', ':total'], [$listingsPaginator->firstItem(), $listingsPaginator->lastItem(), $listingsPaginator->total()], $p['pagination_summary']) }}
+        @else
+          {{ $p['section_subtitle'] }}
+        @endif
+      </p>
     </div>
 
+    @if ($listingsPaginator->count() === 0)
+      <p class="muted">{{ $p['empty_listings'] }}</p>
+    @else
     <div class="grid grid-3" role="list" aria-label="{{ $p['grid_aria'] }}">
-      @foreach ($site['listings'] as $listing)
+      @foreach ($listingsPaginator as $listing)
         <article class="card" role="listitem">
           <div class="property-media">
             <img src="{{ \App\Support\ListingMedia::url($listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
@@ -72,15 +87,18 @@
         </article>
       @endforeach
     </div>
+
+    {{ $listingsPaginator->links('vendor.pagination.listings', ['p' => $p]) }}
+    @endif
   </section>
 
-  @foreach ($site['listings'] as $listing)
+  @foreach ($listingsPaginator as $listing)
     <section class="property-detail" id="{{ $listing['modal_anchor'] }}" aria-label="{{ $listing['code'] }} details">
       <div class="property-detail-modal" role="dialog" aria-modal="true" aria-labelledby="{{ $listing['modal_anchor'] }}-title">
         <div class="modal-inner">
           <div class="modal-top">
             <h3 id="{{ $listing['modal_anchor'] }}-title">{{ $listing['modal_title'] }}</h3>
-            <a class="close-link" href="{{ route('site.properties', ['locale' => $locale]) }}#top" aria-label="{{ $p['close_label'] }}">{{ $p['close_label'] }}</a>
+            <a class="close-link" href="{{ $propertiesIndexHref }}#top" aria-label="{{ $p['close_label'] }}">{{ $p['close_label'] }}</a>
           </div>
           <div class="modal-body">
             <div class="modal-media">
@@ -198,7 +216,7 @@
               </ul>
               <div class="modal-footer-actions">
                 <a class="btn btn-primary" href="{{ route('site.contact', ['locale' => $locale]) }}#contact-form">{{ $p['request_viewing'] }}</a>
-                <a class="btn btn-ghost" href="{{ route('site.properties', ['locale' => $locale]) }}#top">{{ $p['back_listings'] }}</a>
+                <a class="btn btn-ghost" href="{{ $propertiesIndexHref }}#top">{{ $p['back_listings'] }}</a>
               </div>
               <p class="muted" style="margin: .85rem 0 0;">{!! $listing['tip'] !!}</p>
             </div>

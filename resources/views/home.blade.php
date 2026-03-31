@@ -39,7 +39,15 @@
 
     <div class="grid grid-3" role="list" aria-label="{{ $p['featured_title'] }}">
       @foreach ($site['featured_ids'] as $id)
-        @php $listing = $site['listings'][$id]; @endphp
+        @continue(! isset($site['listings'][$id]))
+        @php
+          $listing = $site['listings'][$id];
+          $fp = $featuredListingPages[$id] ?? 1;
+          $featuredPropsHref = route('site.properties', array_filter([
+            'locale' => $locale,
+            'page' => $fp > 1 ? $fp : null,
+          ], fn ($v) => $v !== null && $v !== ''));
+        @endphp
         <article class="card" role="listitem">
           <div class="property-media">
             <img src="{{ \App\Support\ListingMedia::url($listing['image']) }}" alt="{{ $listing['image_alt'] }}"/>
@@ -62,7 +70,7 @@
             </div>
           </div>
           <div class="card-actions">
-            <a class="btn btn-primary" href="{{ route('site.properties', ['locale' => $locale]) }}#{{ $listing['modal_anchor'] }}">{{ $site['pages']['properties']['view_details'] }}</a>
+            <a class="btn btn-primary" href="{{ $featuredPropsHref }}#{{ $listing['modal_anchor'] }}">{{ $site['pages']['properties']['view_details'] }}</a>
           </div>
         </article>
       @endforeach

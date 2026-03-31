@@ -8,6 +8,8 @@ use App\Models\Listing;
 
 final class SiteRepository
 {
+    public const LISTINGS_PER_PAGE = 15;
+
     /** @return list<string> */
     public static function locales(): array
     {
@@ -17,6 +19,19 @@ final class SiteRepository
     public static function defaultLocale(): string
     {
         return 'en';
+    }
+
+    /**
+     * 1-based page number for the properties list that contains the given listing_index (same ordering as pagination).
+     */
+    public static function listingPageForIndex(string $locale, int $listingIndex): int
+    {
+        $position = Listing::query()
+            ->where('locale', $locale)
+            ->where('listing_index', '<', $listingIndex)
+            ->count() + 1;
+
+        return max(1, (int) ceil($position / self::LISTINGS_PER_PAGE));
     }
 
     /**
