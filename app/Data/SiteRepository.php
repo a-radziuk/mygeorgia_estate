@@ -22,19 +22,6 @@ final class SiteRepository
     }
 
     /**
-     * 1-based page number for the properties list that contains the given listing_index (same ordering as pagination).
-     */
-    public static function listingPageForIndex(string $locale, int $listingIndex): int
-    {
-        $position = Listing::query()
-            ->where('locale', $locale)
-            ->where('listing_index', '<', $listingIndex)
-            ->count() + 1;
-
-        return max(1, (int) ceil($position / self::LISTINGS_PER_PAGE));
-    }
-
-    /**
      * @return array<string, mixed>
      */
     public static function forLocale(string $locale): array

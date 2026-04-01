@@ -326,24 +326,32 @@ main{ padding: 2.2rem 0 3.2rem; }
   gap: 1.2rem;
 }
 
-/* Details overlay driven by :target */
-.property-detail{
-  position: relative;
+/* Listing detail (full page) */
+.listing-page{
+  margin: .35rem 0 2.5rem;
 }
-.property-detail-modal{
-  display: none;
+.listing-page-inner{
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(11,18,32,.92);
+  box-shadow: 0 8px 40px rgba(0,0,0,.35);
+  overflow: hidden;
 }
-.property-detail:target .property-detail-modal,
-#property-detail-all:target .property-detail-modal{
-  display: block;
+.listing-page-header{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid rgba(255,255,255,.10);
 }
-.property-detail-modal{
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  background: rgba(0,0,0,.60);
-  backdrop-filter: blur(6px);
+.listing-page-title{
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  font-weight: 800;
 }
+
 .modal-inner{
   width: min(980px, calc(100% - 2rem));
   margin: 3.5rem auto 2rem;

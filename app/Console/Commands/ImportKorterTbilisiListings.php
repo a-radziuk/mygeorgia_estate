@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Models\Listing;
 use App\Services\KorterInitialStateParser;
+use App\Services\KorterListingDetailImages;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -13,16 +14,20 @@ class ImportKorterTbilisiListings extends Command
 {
     protected $signature = 'korter:import-tbilisi
                             {--pages=1 : How many listing pages to fetch (Korter pagination)}
-                            {--url=https://korter.ge/en/apartments-for-sale-tbilisi : Base URL (page query is appended)}';
+                            {--url=https://korter.ge/en/apartments-for-sale-tbilisi : Base URL (page query is appended)}
+                            {--skip-detail-images : Only use cover image from the list (no per-listing detail requests)}
+                            {--delay-ms=150 : Pause between detail page requests (0 to disable)}';
 
     protected $description = 'Fetch apartment listings from korter.ge (Tbilisi, EN) and upsert into the local listings table.';
 
     private const USER_AGENT = 'Mozilla/5.0 (compatible; MyGeorgiaEstate/1.0; +https://example.com/bot)';
 
-    public function handle(KorterInitialStateParser $parser): int
+    public function handle(KorterInitialStateParser $parser, KorterListingDetailImages $detailImages): int
     {
         $pages = max(1, (int) $this->option('pages'));
         $baseUrl = rtrim((string) $this->option('url'), '?&');
+        $skipDetail = (bool) $this->option('skip-detail-images');
+        $delayMs = max(0, (int) $this->option('delay-ms'));
 
         $imported = 0;
         $parserFailed = 0;
@@ -62,7 +67,7 @@ class ImportKorterTbilisiListings extends Command
             }
 
             foreach ($apartments as $row) {
-                $this->persistApartment($row);
+                $this->persistApartment($row, $detailImages, $skipDetail, $delayMs);
                 $imported++;
             }
         }
@@ -78,7 +83,7 @@ class ImportKorterTbilisiListings extends Command
     /**
      * @param  array<string, mixed>  $a
      */
-    private function persistApartment(array $a): void
+    private function persistApartment(array $a, KorterListingDetailImages $detailImages, bool $skipDetail, int $delayMs): void
     {
         $objectId = (int) ($a['objectId'] ?? 0);
         if ($objectId <= 0) {
@@ -95,7 +100,8 @@ class ImportKorterTbilisiListings extends Command
         $listing->locale = 'en';
         $listing->korter_object_id = $objectId;
 
-        $code = 'KORTER-'.$objectId;
+        // $code = 'KORTER-'.$objectId;
+        $code = 'MG-'.$objectId;
         if (strlen($code) > 20) {
             $code = substr($code, 0, 20);
         }
@@ -110,21 +116,46 @@ class ImportKorterTbilisiListings extends Command
             ? $this->formatMoney(round($price / $area, 0), $currency).'/m²'
             : null;
 
-        $img = data_get($a, 'mediaSrc.default.x2')
+        $cover = data_get($a, 'mediaSrc.default.x2')
             ?? data_get($a, 'mediaSrc.default.x1')
             ?? '';
-        $img = is_string($img) ? $img : '';
+        $cover = is_string($cover) ? KorterListingDetailImages::normalizeUrl($cover) : '';
         $titleText = (string) data_get($a, 'microMarkupData.title', 'Apartment in Tbilisi');
         $alt = $titleText;
 
-        if ($img === '') {
-            $img = 'property-1.svg';
+        $gallery = [];
+        $link = (string) ($a['link'] ?? '');
+        if (! $skipDetail && $link !== '') {
+            $detailUrl = KorterListingDetailImages::normalizeUrl($link);
+            if ($this->output->isVerbose()) {
+                $this->line("  Detail: {$detailUrl}");
+            }
+            $detailResponse = Http::withHeaders([
+                'User-Agent' => self::USER_AGENT,
+                'Accept' => 'text/html,application/xhtml+xml',
+                'Accept-Language' => 'en-US,en;q=0.9',
+            ])
+                ->timeout(90)
+                ->get($detailUrl);
+
+            if ($detailResponse->successful()) {
+                $gallery = $detailImages->extractFromHtml($detailResponse->body(), $titleText);
+            }
+            if ($delayMs > 0) {
+                usleep($delayMs * 1000);
+            }
         }
 
-        $listing->images = [
-            ['file' => $img, 'alt' => $alt],
-        ];
-        $listing->image_alt = $alt;
+        if ($gallery === []) {
+            $img = $cover !== '' ? $cover : 'property-1.svg';
+            $listing->images = [
+                ['file' => $img, 'alt' => $alt],
+            ];
+            $listing->image_alt = $alt;
+        } else {
+            $listing->images = $gallery;
+            $listing->image_alt = $gallery[0]['alt'];
+        }
 
         $address = (string) ($a['address'] ?? '');
         $district = (string) ($a['subLocalityNominative'] ?? '');
@@ -156,17 +187,17 @@ class ImportKorterTbilisiListings extends Command
         }
         $listing->modal_title = $titleText;
 
-        $listing->address = trim($address.' · '.$district.'. Imported from Korter.ge (Tbilisi).');
+        $listing->address = trim($address.' · '.$district.'');
 
         $rooms = (int) ($a['roomCount'] ?? 0);
         $roomStr = $rooms > 0 ? $rooms.' rooms' : $typeLabel;
         $listing->bullets = [
             ['label' => 'Area', 'text' => $area > 0 ? $this->formatArea($area).' · '.$roomStr : $roomStr],
             ['label' => 'Location', 'text' => $district !== '' ? $district.' · '.$address : $address],
-            ['label' => 'Source', 'text' => 'Listing data from korter.ge at import time.'],
+            ['label' => 'Source', 'text' => 'Listing data at '.date('d.m.Y')],
         ];
 
-        $listing->tip = 'Source: <a href="https://korter.ge" rel="noopener noreferrer">Korter.ge</a> — use code <b>'.$code.'</b> when contacting us.';
+        $listing->tip = 'Use code <b>'.$code.'</b> when contacting us.';
 
         $listing->is_mock = false;
 

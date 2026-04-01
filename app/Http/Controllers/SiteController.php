@@ -23,16 +23,31 @@ class SiteController extends Controller
         }
 
         $site = SiteRepository::forLocale($locale);
-        $featuredListingPages = [];
-        foreach ($site['featured_ids'] as $id) {
-            $featuredListingPages[(int) $id] = SiteRepository::listingPageForIndex($locale, (int) $id);
-        }
 
         return view('home', [
             'locale' => $locale,
             'page' => 'home',
             'site' => $site,
-            'featuredListingPages' => $featuredListingPages,
+        ]);
+    }
+
+    public function listing(string $locale, Listing $listing): View
+    {
+        if (! in_array($locale, SiteRepository::locales(), true)) {
+            abort(404);
+        }
+
+        if ($listing->locale !== $locale) {
+            abort(404);
+        }
+
+        $site = SiteRepository::forLocale($locale);
+
+        return view('listing', [
+            'locale' => $locale,
+            'page' => 'listing',
+            'site' => $site,
+            'listing' => $listing->toSiteArray(),
         ]);
     }
 

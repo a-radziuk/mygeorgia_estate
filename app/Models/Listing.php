@@ -47,6 +47,7 @@ class Listing extends Model
         $first = $images[0] ?? ['file' => '', 'alt' => ''];
 
         return [
+            'id' => $this->id,
             'is_mock' => (bool) $this->is_mock,
             'images' => $images,
             'image' => $first['file'],

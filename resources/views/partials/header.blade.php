@@ -2,6 +2,7 @@
   $routeName = match ($page) {
       'home' => 'site.home',
       'properties' => 'site.properties',
+      'listing' => 'site.properties',
       'about' => 'site.about',
       'contact' => 'site.contact',
       'faqs' => 'site.faqs',
@@ -23,7 +24,7 @@
 
     <nav class="nav" aria-label="{{ $site['nav_aria'] }}">
       <a href="{{ route('site.home', ['locale' => $locale]) }}" @if($page === 'home') aria-current="page" @endif>{{ $site['nav']['home'] }}</a>
-      <a href="{{ route('site.properties', ['locale' => $locale]) }}" @if($page === 'properties') aria-current="page" @endif>{{ $site['nav']['properties'] }}</a>
+      <a href="{{ route('site.properties', ['locale' => $locale]) }}" @if(in_array($page, ['properties', 'listing'], true)) aria-current="page" @endif>{{ $site['nav']['properties'] }}</a>
       <a href="{{ route('site.about', ['locale' => $locale]) }}" @if($page === 'about') aria-current="page" @endif>{{ $site['nav']['about'] }}</a>
       <a href="{{ route('site.faqs', ['locale' => $locale]) }}" @if($page === 'faqs') aria-current="page" @endif>{{ $site['nav']['faq'] }}</a>
       <a href="{{ route('site.contact', ['locale' => $locale]) }}" @if($page === 'contact') aria-current="page" @endif>{{ $site['nav']['contact'] }}</a>

@@ -2,7 +2,7 @@
   <div class="container footer-inner">
     <div>
       <b>{{ $site['brand']['title'] }}</b>
-      <div class="muted" style="margin-top:.25rem;">{{ $site['footer'][$page]['tagline'] ?? $site['footer']['home']['tagline'] }}</div>
+      <div class="muted" style="margin-top:.25rem;">{{ $site['footer'][($page === 'listing' ? 'properties' : $page)]['tagline'] ?? $site['footer']['home']['tagline'] }}</div>
     </div>
     <div class="footer-links" aria-label="Footer links">
       <a href="{{ route('site.properties', ['locale' => $locale]) }}">{{ $site['nav']['properties'] }}</a>

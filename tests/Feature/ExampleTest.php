@@ -19,4 +19,9 @@ class ExampleTest extends TestCase
     {
         $this->get('/en/properties')->assertOk();
     }
+
+    public function test_missing_listing_returns_not_found(): void
+    {
+        $this->get('/en/properties/999999999')->assertNotFound();
+    }
 }
