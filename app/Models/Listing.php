@@ -51,6 +51,7 @@ class Listing extends Model
         'address',
         'bullets',
         'tip',
+        'market_type',
     ];
 
     /**

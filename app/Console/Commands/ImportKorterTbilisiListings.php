@@ -25,28 +25,61 @@ class ImportKorterTbilisiListings extends Command
 
     private array $presets = [
         1 => [
-            'url' => 'https://korter.ge/en/apartments-for-sale-tbilisi',
+            'url' => 'https://korter.ge/en/apartments-for-sale-tbilisi?market_types=primary',
             'type' => 'apartment',
             'city' => 'tbilisi',
             'city_name' => 'Tbilisi',
+            'market_type' => 'primary',
         ],
         2 => [
-            'url' => 'https://korter.ge/en/houses-for-sale-tbilisi',
+            'url' => 'https://korter.ge/en/houses-for-sale-tbilisi?market_types=primary',
             'type' => 'house',
             'city' => 'tbilisi',
             'city_name' => 'Tbilisi',
+            'market_type' => 'primary',
         ],
         3 => [
-            'url' => 'https://korter.ge/en/apartments-for-sale-batumi',
+            'url' => 'https://korter.ge/en/apartments-for-sale-batumi?market_types=primary',
             'type' => 'apartment',
             'city' => 'batumi',
             'city_name' => 'Batumi',
+            'market_type' => 'primary',
         ],
         4 => [
-            'url' => 'https://korter.ge/en/houses-for-sale-batumi',
+            'url' => 'https://korter.ge/en/houses-for-sale-batumi?market_types=primary',
             'type' => 'house',
             'city' => 'batumi',
             'city_name' => 'Batumi',
+            'market_type' => 'primary',
+        ],
+
+        5 => [
+            'url' => 'https://korter.ge/en/apartments-for-sale-tbilisi?market_types=secondary',
+            'type' => 'apartment',
+            'city' => 'tbilisi',
+            'city_name' => 'Tbilisi',
+            'market_type' => 'secondary',
+        ],
+        6 => [
+            'url' => 'https://korter.ge/en/houses-for-sale-tbilisi?market_types=secondary',
+            'type' => 'house',
+            'city' => 'tbilisi',
+            'city_name' => 'Tbilisi',
+            'market_type' => 'secondary',
+        ],
+        7 => [
+            'url' => 'https://korter.ge/en/apartments-for-sale-batumi?market_types=secondary',
+            'type' => 'apartment',
+            'city' => 'batumi',
+            'city_name' => 'Batumi',
+            'market_type' => 'secondary',
+        ],
+        8 => [
+            'url' => 'https://korter.ge/en/houses-for-sale-batumi?market_types=secondary',
+            'type' => 'house',
+            'city' => 'batumi',
+            'city_name' => 'Batumi',
+            'market_type' => 'secondary',
         ],
     ];
 
@@ -60,6 +93,8 @@ class ImportKorterTbilisiListings extends Command
             throw new \Exception('Preset "'.$pr.'" not found');
         }
         $preset = $this->presets[$pr];
+        print_r($preset);
+
         $pages = max(1, (int) $this->option('pages'));
         $baseUrl = rtrim($preset['url'], '?&');
         $skipDetail = (bool) $this->option('skip-detail-images');
@@ -106,6 +141,7 @@ class ImportKorterTbilisiListings extends Command
                 $row['city'] = trim($preset['city']);
                 $row['type'] = trim($preset['type']);
                 $row['city_name'] = trim($preset['city_name']);
+                $row['market_type'] = trim($preset['market_type']);
                 $this->persistApartment($row, $parser, $detailImages, $layoutExtractor, $skipDetail, $delayMs);
                 $imported++;
             }
@@ -221,6 +257,7 @@ class ImportKorterTbilisiListings extends Command
         $listing->latitude = data_get($a, 'building.position.lat');
         $listing->longitude = data_get($a, 'building.position.lng');
         $listing->developer = $buildingName !== '' ? $buildingName : null;
+        $listing->market_type = $a['market_type'];
         $this->applyKorterLayoutFields($listing, $layoutDetail);
         $listing->description_by_developer = data_get($a, 'microMarkupData.description');
         if (($layoutDetail['description'] ?? null) !== null) {
