@@ -4,7 +4,13 @@
 @section('description', $site['meta']['properties']['description'])
 
 @section('content')
-  @php $p = $site['pages']['properties']; @endphp
+  @php
+    $p = $site['pages']['properties'];
+    $f = $propertyFilters;
+    $moreFiltersOpen = $f->pricePerSqmMin !== null || $f->pricePerSqmMax !== null
+        || $f->roomsMin !== null || $f->roomsMax !== null
+        || $f->areaMin !== null || $f->areaMax !== null;
+  @endphp
   <div id="top" aria-hidden="true"></div>
 
   <section class="hero" style="margin-bottom: 1.4rem;">
@@ -20,19 +26,58 @@
 
     <aside class="hero-aside">
       <b>{{ $p['aside_title'] }}</b>
-      <p class="muted" style="margin: .6rem 0 0;">{{ $p['aside_text'] }}</p>
-      <div style="margin-top: 1rem;">
+      <form class="filters-form" method="get" action="{{ route('site.properties', ['locale' => $locale, 'city' => $city, 'type' => $propertiesTypeFilter]) }}" style="margin-top: 1rem;">
         <div class="field">
-          <label for="search">{{ $p['search_label'] }}</label>
-          <input id="search" name="search" placeholder="{{ $p['search_placeholder'] }}" disabled/>
-        </div>
-        <div class="field">
-          <label for="budget">{{ $p['budget_label'] }}</label>
-          <select id="budget" name="budget" disabled>
-            <option>{{ $p['budget_option'] }}</option>
+          <label for="filter-market">{{ $p['filter_market_label'] }}</label>
+          <select id="filter-market" name="market_type">
+            <option value="" @selected($f->marketType === null)>{{ $p['filter_market_any'] }}</option>
+            <option value="primary" @selected($f->marketType === 'primary')>{{ $p['filter_market_primary'] }}</option>
+            <option value="secondary" @selected($f->marketType === 'secondary')>{{ $p['filter_market_secondary'] }}</option>
           </select>
         </div>
-      </div>
+        <div class="field">
+          <span class="filters-fieldset-label">{{ $p['filter_price_label'] }}</span>
+          <div class="filters-row">
+            <input type="number" name="price_min" min="0" step="any" placeholder="{{ $p['filter_min'] }}" value="{{ $f->priceMin !== null ? (string) $f->priceMin : '' }}" aria-label="{{ $p['filter_price_min_aria'] }}"/>
+            <span class="filters-sep muted" aria-hidden="true">–</span>
+            <input type="number" name="price_max" min="0" step="any" placeholder="{{ $p['filter_max'] }}" value="{{ $f->priceMax !== null ? (string) $f->priceMax : '' }}" aria-label="{{ $p['filter_price_max_aria'] }}"/>
+          </div>
+        </div>
+        <details class="filters-more" @if ($moreFiltersOpen) open @endif>
+          <summary class="filters-more-summary">{{ $p['filter_more_toggle'] }}</summary>
+          <div class="filters-more-body">
+            <div class="field">
+              <span class="filters-fieldset-label">{{ $p['filter_price_sqm_label'] }}</span>
+              <div class="filters-row">
+                <input type="number" name="price_sqm_min" min="0" step="any" placeholder="{{ $p['filter_min'] }}" value="{{ $f->pricePerSqmMin !== null ? (string) $f->pricePerSqmMin : '' }}" aria-label="{{ $p['filter_price_sqm_min_aria'] }}"/>
+                <span class="filters-sep muted" aria-hidden="true">–</span>
+                <input type="number" name="price_sqm_max" min="0" step="any" placeholder="{{ $p['filter_max'] }}" value="{{ $f->pricePerSqmMax !== null ? (string) $f->pricePerSqmMax : '' }}" aria-label="{{ $p['filter_price_sqm_max_aria'] }}"/>
+              </div>
+            </div>
+            <div class="field">
+              <span class="filters-fieldset-label">{{ $p['filter_rooms_label'] }}</span>
+              <div class="filters-row">
+                <input type="number" name="rooms_min" min="1" step="1" placeholder="{{ $p['filter_min'] }}" value="{{ $f->roomsMin !== null ? (string) $f->roomsMin : '' }}" aria-label="{{ $p['filter_rooms_min_aria'] }}"/>
+                <span class="filters-sep muted" aria-hidden="true">–</span>
+                <input type="number" name="rooms_max" min="1" step="1" placeholder="{{ $p['filter_max'] }}" value="{{ $f->roomsMax !== null ? (string) $f->roomsMax : '' }}" aria-label="{{ $p['filter_rooms_max_aria'] }}"/>
+              </div>
+            </div>
+            <div class="field">
+              <span class="filters-fieldset-label">{{ $p['filter_area_label'] }}</span>
+              <div class="filters-row">
+                <input type="number" name="area_min" min="0" step="any" placeholder="{{ $p['filter_min'] }}" value="{{ $f->areaMin !== null ? (string) $f->areaMin : '' }}" aria-label="{{ $p['filter_area_min_aria'] }}"/>
+                <span class="filters-sep muted" aria-hidden="true">–</span>
+                <input type="number" name="area_max" min="0" step="any" placeholder="{{ $p['filter_max'] }}" value="{{ $f->areaMax !== null ? (string) $f->areaMax : '' }}" aria-label="{{ $p['filter_area_max_aria'] }}"/>
+              </div>
+              <small class="muted" style="display:block;margin-top:.35rem;">{{ $p['filter_area_suffix'] }}</small>
+            </div>
+          </div>
+        </details>
+        <div class="filters-actions">
+          <button type="submit" class="btn btn-primary">{{ $p['filter_submit'] }}</button>
+          <a class="btn btn-ghost" href="{{ route('site.properties', ['locale' => $locale, 'city' => $city, 'type' => $propertiesTypeFilter]) }}">{{ $p['filter_clear'] }}</a>
+        </div>
+      </form>
       <div class="notice" style="margin-top: 1rem;">{!! $p['aside_notice'] !!}</div>
     </aside>
   </section>
@@ -50,7 +95,7 @@
     </div>
 
     @if ($listingsPaginator->count() === 0)
-      <p class="muted">{{ $p['empty_listings'] }}</p>
+      <p class="muted">{{ $f->isActive() ? $p['empty_listings_filtered'] : $p['empty_listings'] }}</p>
     @else
     <div class="grid grid-3" role="list" aria-label="{{ $p['grid_aria'] }}">
       @foreach ($listingsPaginator as $listing)

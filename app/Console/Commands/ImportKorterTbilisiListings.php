@@ -203,9 +203,12 @@ class ImportKorterTbilisiListings extends Command
         $area = (float) ($a['area'] ?? 0);
 
         $listing->price = $this->formatMoney($price, $currency);
+        $listing->price_amount = $price > 0 ? $price : null;
+        $listing->price_currency = strtoupper(substr($currency, 0, 3));
         $listing->price_per_sqm = $area > 0
             ? $this->formatMoney(round($price / $area, 0), $currency).'/m²'
             : null;
+        $listing->price_per_sqm_amount = $area > 0 && $price > 0 ? round($price / $area, 2) : null;
 
         $cover = data_get($a, 'mediaSrc.default.x2')
             ?? data_get($a, 'mediaSrc.default.x1')

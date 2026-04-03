@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Data\SiteRepository;
 use App\Models\Listing;
+use App\Support\PropertyListingFilters;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
@@ -74,7 +76,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function properties(string $locale, string $city, string $type): View
+    public function properties(Request $request, string $locale, string $city, string $type): View
     {
         if (! in_array($locale, SiteRepository::locales(), true)) {
             abort(404);
@@ -90,11 +92,16 @@ class SiteController extends Controller
             abort(404);
         }
 
+        $filters = PropertyListingFilters::fromRequest($request);
+
         $site = SiteRepository::forLocale($locale, $city);
-        $listingsPaginator = Listing::query()
+        $listingsQuery = Listing::query()
             ->where('locale', $locale)
             ->where('city', $city)
-            ->where('type', $type)
+            ->where('type', $type);
+        $filters->applyTo($listingsQuery);
+
+        $listingsPaginator = $listingsQuery
             ->orderBy('listing_index')
             ->paginate(SiteRepository::LISTINGS_PER_PAGE)
             ->withQueryString()
@@ -108,6 +115,7 @@ class SiteController extends Controller
             'site' => $site,
             'listingsPaginator' => $listingsPaginator,
             'propertiesTypeFilter' => $type,
+            'propertyFilters' => $filters,
         ]);
     }
 
