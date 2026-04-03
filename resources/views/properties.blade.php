@@ -38,9 +38,19 @@
         <div class="field">
           <span class="filters-fieldset-label">{{ $p['filter_price_label'] }}</span>
           <div class="filters-row">
-            <input type="number" name="price_min" min="0" step="any" placeholder="{{ $p['filter_min'] }}" value="{{ $f->priceMin !== null ? (string) $f->priceMin : '' }}" aria-label="{{ $p['filter_price_min_aria'] }}"/>
+            <select id="filter-price-min" name="price_min" aria-label="{{ $p['filter_price_min_aria'] }}">
+              <option value="" @selected($f->priceMin === null)>{{ $p['filter_market_any'] }}</option>
+              @foreach ($p['filter_price_suggest_total'] as $opt)
+              <option value="{{ $opt['v'] }}" @selected($f->priceMin !== null && abs($f->priceMin - (float) $opt['v']) < 0.01)>{{ $opt['label'] }}</option>
+              @endforeach
+            </select>
             <span class="filters-sep muted" aria-hidden="true">–</span>
-            <input type="number" name="price_max" min="0" step="any" placeholder="{{ $p['filter_max'] }}" value="{{ $f->priceMax !== null ? (string) $f->priceMax : '' }}" aria-label="{{ $p['filter_price_max_aria'] }}"/>
+            <select id="filter-price-max" name="price_max" aria-label="{{ $p['filter_price_max_aria'] }}">
+              <option value="" @selected($f->priceMax === null)>{{ $p['filter_market_any'] }}</option>
+              @foreach ($p['filter_price_suggest_total'] as $opt)
+              <option value="{{ $opt['v'] }}" @selected($f->priceMax !== null && abs($f->priceMax - (float) $opt['v']) < 0.01)>{{ $opt['label'] }}</option>
+              @endforeach
+            </select>
           </div>
         </div>
         <details class="filters-more" @if ($moreFiltersOpen) open @endif>
@@ -49,9 +59,19 @@
             <div class="field">
               <span class="filters-fieldset-label">{{ $p['filter_price_sqm_label'] }}</span>
               <div class="filters-row">
-                <input type="number" name="price_sqm_min" min="0" step="any" placeholder="{{ $p['filter_min'] }}" value="{{ $f->pricePerSqmMin !== null ? (string) $f->pricePerSqmMin : '' }}" aria-label="{{ $p['filter_price_sqm_min_aria'] }}"/>
+                <select id="filter-price-sqm-min" name="price_sqm_min" aria-label="{{ $p['filter_price_sqm_min_aria'] }}">
+                  <option value="" @selected($f->pricePerSqmMin === null)>{{ $p['filter_market_any'] }}</option>
+                  @foreach ($p['filter_price_suggest_sqm'] as $opt)
+                  <option value="{{ $opt['v'] }}" @selected($f->pricePerSqmMin !== null && abs($f->pricePerSqmMin - (float) $opt['v']) < 0.01)>{{ $opt['label'] }}</option>
+                  @endforeach
+                </select>
                 <span class="filters-sep muted" aria-hidden="true">–</span>
-                <input type="number" name="price_sqm_max" min="0" step="any" placeholder="{{ $p['filter_max'] }}" value="{{ $f->pricePerSqmMax !== null ? (string) $f->pricePerSqmMax : '' }}" aria-label="{{ $p['filter_price_sqm_max_aria'] }}"/>
+                <select id="filter-price-sqm-max" name="price_sqm_max" aria-label="{{ $p['filter_price_sqm_max_aria'] }}">
+                  <option value="" @selected($f->pricePerSqmMax === null)>{{ $p['filter_market_any'] }}</option>
+                  @foreach ($p['filter_price_suggest_sqm'] as $opt)
+                  <option value="{{ $opt['v'] }}" @selected($f->pricePerSqmMax !== null && abs($f->pricePerSqmMax - (float) $opt['v']) < 0.01)>{{ $opt['label'] }}</option>
+                  @endforeach
+                </select>
               </div>
             </div>
             <div class="field">
