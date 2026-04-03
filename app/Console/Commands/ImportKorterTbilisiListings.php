@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Http;
 class ImportKorterTbilisiListings extends Command
 {
     protected $signature = 'korter:import-tbilisi
-                            {--pages=1 : How many listing pages to fetch (Korter pagination)}
+                            {--page=1 : Which Korter listing index page to fetch (1-based)}
                             {--preset=1: Aparatments in Tblisi}
                             {--skip-detail-images : Only use cover image from the list (no per-listing detail requests)}
                             {--delay-ms=150 : Pause between detail page requests (0 to disable)}';
@@ -94,7 +94,7 @@ class ImportKorterTbilisiListings extends Command
         }
         $preset = $this->presets[$pr];
 
-        $pages = max(1, (int) $this->option('pages'));
+        $page = max(1, (int) $this->option('page'));
         $baseUrl = rtrim($preset['url'], '?&');
         $skipDetail = (bool) $this->option('skip-detail-images');
         $delayMs = max(0, (int) $this->option('delay-ms'));
@@ -102,54 +102,48 @@ class ImportKorterTbilisiListings extends Command
         $imported = 0;
         $parserFailed = 0;
 
-        for ($page = 1; $page <= $pages; $page++) {
-            $url = $page === 1 ? $baseUrl : $baseUrl.(str_contains($baseUrl, '?') ? '&' : '?').'page='.$page;
-            $this->info("Fetching {$url}");
+        $url = $page === 1 ? $baseUrl : $baseUrl.(str_contains($baseUrl, '?') ? '&' : '?').'page='.$page;
+        $this->info("Fetching {$url}");
 
-            $response = Http::withHeaders([
-                'User-Agent' => self::USER_AGENT,
-                'Accept' => 'text/html,application/xhtml+xml',
-                'Accept-Language' => 'en-US,en;q=0.9',
-            ])
-                ->timeout(60)
-                ->get($url);
+        $response = Http::withHeaders([
+            'User-Agent' => self::USER_AGENT,
+            'Accept' => 'text/html,application/xhtml+xml',
+            'Accept-Language' => 'en-US,en;q=0.9',
+        ])
+            ->timeout(60)
+            ->get($url);
 
-            if (! $response->successful()) {
-                $this->error("HTTP {$response->status()} for {$url}");
+        if (! $response->successful()) {
+            $this->error("HTTP {$response->status()} for {$url}");
 
-                return self::FAILURE;
-            }
+            return self::FAILURE;
+        }
 
-            $state = $parser->parse($response->body());
-            if ($state === null) {
-                $this->warn("Could not parse window.INITIAL_STATE on page {$page}.");
-                $parserFailed++;
-
-                continue;
-            }
-
+        $state = $parser->parse($response->body());
+        if ($state === null) {
+            $this->warn("Could not parse window.INITIAL_STATE on page {$page}.");
+            $parserFailed++;
+        } else {
             /** @var list<array<string, mixed>>|null $apartments */
             $apartments = data_get($state, 'apartmentListingStore.apartments');
             if (! is_array($apartments) || $apartments === []) {
                 $this->warn("No apartments in INITIAL_STATE on page {$page}.");
-
-                continue;
-            }
-
-            foreach ($apartments as $row) {
-                $row['city'] = trim($preset['city']);
-                $row['type'] = trim($preset['type']);
-                $row['city_name'] = trim($preset['city_name']);
-                $row['market_type'] = trim($preset['market_type']);
-                if ($this->persistApartment($row, $parser, $detailImages, $layoutExtractor, $skipDetail, $delayMs)) {
-                    $imported++;
+            } else {
+                foreach ($apartments as $row) {
+                    $row['city'] = trim($preset['city']);
+                    $row['type'] = trim($preset['type']);
+                    $row['city_name'] = trim($preset['city_name']);
+                    $row['market_type'] = trim($preset['market_type']);
+                    if ($this->persistApartment($row, $parser, $detailImages, $layoutExtractor, $skipDetail, $delayMs)) {
+                        $imported++;
+                    }
                 }
             }
         }
 
         $this->info("Upserted {$imported} listing rows from Korter.");
         if ($parserFailed > 0) {
-            $this->warn("Skipped {$parserFailed} page(s) due to parse errors.");
+            $this->warn('Skipped due to parse error.');
         }
 
         return self::SUCCESS;
