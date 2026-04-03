@@ -35,7 +35,7 @@
   <article class="listing-page" aria-labelledby="listing-title">
     <div class="listing-page-inner">
       <header class="listing-page-header">
-        <h1 id="listing-title" class="listing-page-title">{{ $listing['modal_title'] }}</h1>
+        <h1 id="listing-title" class="listing-page-title">{{ $listing['modal_title'] }} <span class="muted">{{ $listing['code'] }}</span></h1>
         <a class="close-link" href="{{ $backToProperties }}#property-grid">{{ $p['back_listings'] }}</a>
       </header>
 
@@ -114,7 +114,7 @@
           <div class="price">{{ $listing['price'] }}  <span class="muted">{{ $listing['price_per_sqm'] }}</span></div>
 
           <dl class="listing-specs">
-              <p class="muted listing-notes">{{ $listing['address'] }}</p>
+              <p class="muted listing-notes">{{ $listing['property_subtype'] }}, {{ $listing['market_type'] }}</p>
               <ul class="bullets">
                   @foreach ($listing['bullets'] as $b)
                       <li><b>{{ $b['label'] }}</b> {{ $b['text'] }}</li>

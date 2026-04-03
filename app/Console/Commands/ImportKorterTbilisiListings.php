@@ -214,11 +214,10 @@ class ImportKorterTbilisiListings extends Command
             ?? data_get($a, 'mediaSrc.default.x1')
             ?? '';
         $cover = is_string($cover) ? KorterListingDetailImages::normalizeUrl($cover) : '';
-        $titleText = (string) data_get($a, 'microMarkupData.title', 'Apartment in Tbilisi');
-        $alt = $titleText;
 
         $gallery = [];
         $layoutDetail = $layoutExtractor->extractFromState(null);
+        $detailState = null;
         $link = (string) ($a['link'] ?? '');
         if (! $skipDetail && $link !== '') {
             $detailUrl = KorterListingDetailImages::normalizeUrl($link);
@@ -234,9 +233,9 @@ class ImportKorterTbilisiListings extends Command
                 ->get($detailUrl);
 
             if ($detailResponse->successful()) {
-                $detailState = $parser->parse($detailResponse->body());
-                if (is_array($detailState)) {
-                    $gallery = $detailImages->extractFromState($detailState, $titleText);
+                $parsed = $parser->parse($detailResponse->body());
+                if (is_array($parsed)) {
+                    $detailState = $parsed;
                     $layoutDetail = $layoutExtractor->extractFromState($detailState);
                 }
             }
@@ -246,13 +245,18 @@ class ImportKorterTbilisiListings extends Command
         }
 
         $layoutDetail = $this->mergeLayoutListFallbacks($layoutDetail, $a, $area);
+        $headline = $this->formatListingHeadline($a, $layoutDetail);
+
+        if (! $skipDetail && $link !== '' && is_array($detailState)) {
+            $gallery = $detailImages->extractFromState($detailState, $headline);
+        }
 
         if ($gallery === []) {
             $img = $cover !== '' ? $cover : 'property-1.svg';
             $listing->images = [
-                ['file' => $img, 'alt' => $alt],
+                ['file' => $img, 'alt' => $headline],
             ];
-            $listing->image_alt = $alt;
+            $listing->image_alt = $headline;
         } else {
             $listing->images = $gallery;
             $listing->image_alt = $gallery[0]['alt'];
@@ -261,10 +265,9 @@ class ImportKorterTbilisiListings extends Command
         $address = (string) ($a['address'] ?? '');
         $district = (string) ($a['subLocalityNominative'] ?? '');
         $buildingName = (string) data_get($a, 'building.name', '');
-        $typeLabel = (string) ($a['propertyTypeRoomCountLabel'] ?? 'Apartment');
 
-        $listing->kicker = $code.' · '.$typeLabel.' · '.$a['city_name'];
-        $listing->title = $buildingName !== '' ? $buildingName.' · '.$typeLabel : $typeLabel.' · '.$district;
+        $listing->kicker = $code.' · '.$headline;
+        $listing->title = $headline;
         $listing->address_line = $address;
         $listing->district = $district;
         $listing->latitude = data_get($a, 'building.position.lat');
@@ -277,9 +280,12 @@ class ImportKorterTbilisiListings extends Command
             $listing->description_by_developer = $layoutDetail['description'];
         }
 
+        $chipLead = str_contains($headline, ',')
+            ? trim(explode(',', $headline, 2)[0])
+            : $headline;
         $floorPart = $layoutDetail['floors_label'] ?? $this->floorLabel($a);
         $chips = array_values(array_filter([
-            $typeLabel,
+            $chipLead,
             $area > 0 ? $this->formatArea($area) : null,
             $floorPart,
         ]));
@@ -290,12 +296,12 @@ class ImportKorterTbilisiListings extends Command
         if (strlen($listing->modal_anchor) > 10) {
             $listing->modal_anchor = 'p'.substr((string) $idx, -9);
         }
-        $listing->modal_title = $titleText;
+        $listing->modal_title = $headline;
 
         $listing->address = trim($address.' · '.$district.'');
 
-        $rooms = (int) ($a['roomCount'] ?? 0);
-        $roomStr = $rooms > 0 ? $rooms.' rooms' : $typeLabel;
+        $rooms = (int) ($layoutDetail['room_count'] ?? $a['roomCount'] ?? 0);
+        $roomStr = $rooms > 0 ? $rooms.' rooms' : 'Studio';
         $listing->bullets = [
             ['label' => 'Area', 'text' => $area > 0 ? $this->formatArea($area).' · '.$roomStr : $roomStr],
             ['label' => 'Location', 'text' => $district !== '' ? $district.' · '.$address : $address],
@@ -330,6 +336,35 @@ class ImportKorterTbilisiListings extends Command
         }
 
         return $layoutDetail;
+    }
+
+    /**
+     * Short English headline: "{n}-room apartment, District" or "Studio house, District".
+     *
+     * @param  array<string, mixed>  $a
+     * @param  array<string, mixed>  $layoutDetail
+     */
+    private function formatListingHeadline(array $a, array $layoutDetail): string
+    {
+        $rooms = (int) ($layoutDetail['room_count'] ?? $a['roomCount'] ?? 0);
+        $kind = (string) ($a['type'] ?? 'apartment') === 'house' ? 'house' : 'apartment';
+
+        $district = trim((string) ($a['subLocalityNominative'] ?? ''));
+        if ($district === '') {
+            $district = trim((string) ($a['city_name'] ?? ''));
+        }
+
+        if ($rooms > 0) {
+            $headline = $rooms.'-room '.$kind;
+        } else {
+            $headline = 'Studio '.$kind;
+        }
+
+        if ($district !== '') {
+            return $headline.', '.$district;
+        }
+
+        return $headline;
     }
 
     /**

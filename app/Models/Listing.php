@@ -10,6 +10,11 @@ class Listing extends Model
 {
     public $timestamps = false;
 
+    protected $_market_types = [
+        'primary' => 'New',
+        'secondary' => 'Resale',
+    ];
+
     protected $fillable = [
         'korter_object_id',
         'korter_layout_id',
@@ -106,6 +111,7 @@ class Listing extends Model
             'bullets' => $this->bullets,
             'tip' => $this->tip,
             'code' => $this->code,
+            'market_type' => $this->_market_types[$this->market_type]
         ];
     }
 
