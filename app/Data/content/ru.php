@@ -12,7 +12,8 @@ return [
     ],
     'nav' => [
         'home' => 'Главная',
-        'properties' => 'Объекты',
+        'apartments' => 'Квартиры',
+        'houses' => 'Дома',
         'about' => 'О нас',
         'faq' => 'FAQ',
         'contact' => 'Контакты',

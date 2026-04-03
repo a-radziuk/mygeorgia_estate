@@ -12,7 +12,8 @@ return [
     ],
     'nav' => [
         'home' => 'Home',
-        'properties' => 'Properties',
+        'apartments' => 'Apartments',
+        'houses' => 'Houses',
         'about' => 'About',
         'faq' => 'FAQ',
         'contact' => 'Contact',

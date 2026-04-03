@@ -66,6 +66,7 @@ class Listing extends Model
 
         return [
             'id' => $this->id,
+            'type' => $this->type,
             'is_mock' => (bool) $this->is_mock,
             'images' => $images,
             'image' => $first['file'],

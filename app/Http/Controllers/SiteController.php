@@ -16,6 +16,7 @@ class SiteController extends Controller
         return redirect()->route('site.properties', [
             'locale' => SiteRepository::defaultLocale(),
             'city' => SiteRepository::defaultCity(),
+            'type' => 'apartment',
         ]);
     }
 
@@ -59,17 +60,21 @@ class SiteController extends Controller
         }
 
         $site = SiteRepository::forLocale($locale, $city);
+        $listingArr = $listing->toSiteArray();
 
         return view('listing', [
             'locale' => $locale,
             'city' => $city,
             'page' => 'listing',
             'site' => $site,
-            'listing' => $listing->toSiteArray(),
+            'listing' => $listingArr,
+            'propertiesTypeFilter' => in_array((string) $listing->type, SiteRepository::listingTypes(), true)
+                ? $listing->type
+                : null,
         ]);
     }
 
-    public function properties(string $locale, string $city): View
+    public function properties(string $locale, string $city, string $type): View
     {
         if (! in_array($locale, SiteRepository::locales(), true)) {
             abort(404);
@@ -80,10 +85,16 @@ class SiteController extends Controller
             abort(404);
         }
 
+        $type = strtolower($type);
+        if (! in_array($type, SiteRepository::listingTypes(), true)) {
+            abort(404);
+        }
+
         $site = SiteRepository::forLocale($locale, $city);
         $listingsPaginator = Listing::query()
             ->where('locale', $locale)
             ->where('city', $city)
+            ->where('type', $type)
             ->orderBy('listing_index')
             ->paginate(SiteRepository::LISTINGS_PER_PAGE)
             ->withQueryString()
@@ -96,6 +107,7 @@ class SiteController extends Controller
             'page' => 'properties',
             'site' => $site,
             'listingsPaginator' => $listingsPaginator,
+            'propertiesTypeFilter' => $type,
         ]);
     }
 

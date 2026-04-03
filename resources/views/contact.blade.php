@@ -12,7 +12,7 @@
       <h1>{{ $p['hero_title'] }}</h1>
       <p>{{ $p['hero_text'] }}</p>
       <div class="actions">
-        <a class="btn btn-primary" href="{{ route('site.properties', ['locale' => $locale, 'city' => $city]) }}#top">{{ $p['cta_browse'] }}</a>
+        <a class="btn btn-primary" href="{{ route('site.properties', ['locale' => $locale, 'city' => $city, 'type' => 'apartment']) }}#top">{{ $p['cta_browse'] }}</a>
         <a class="btn btn-ghost" href="#contact-form">{{ $p['cta_form'] }}</a>
       </div>
     </div>

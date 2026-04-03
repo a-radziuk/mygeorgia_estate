@@ -12,7 +12,8 @@ return [
     ],
     'nav' => [
         'home' => 'ホーム',
-        'properties' => '物件',
+        'apartments' => 'マンション',
+        'houses' => '一戸建て',
         'about' => '会社情報',
         'faq' => 'FAQ',
         'contact' => 'お問い合わせ',

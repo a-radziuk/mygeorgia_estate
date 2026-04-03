@@ -32,6 +32,12 @@ final class SiteRepository
         return 'tbilisi';
     }
 
+    /** @return list<string> */
+    public static function listingTypes(): array
+    {
+        return ['apartment', 'house'];
+    }
+
     /**
      * @return array<string, mixed>
      */

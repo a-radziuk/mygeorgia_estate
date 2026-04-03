@@ -21,6 +21,7 @@
   $backToProperties = route('site.properties', array_filter([
     'locale' => $locale,
     'city' => $city,
+    'type' => in_array($listing['type'] ?? '', ['apartment', 'house'], true) ? $listing['type'] : 'apartment',
     'page' => request()->integer('return_page', 1) > 1 ? request('return_page') : null,
   ], fn ($v) => $v !== null && $v !== ''));
 @endphp
