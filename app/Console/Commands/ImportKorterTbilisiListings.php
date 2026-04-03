@@ -14,7 +14,7 @@ class ImportKorterTbilisiListings extends Command
 {
     protected $signature = 'korter:import-tbilisi
                             {--pages=1 : How many listing pages to fetch (Korter pagination)}
-                            {--url=https://korter.ge/en/apartments-for-sale-tbilisi : Base URL (page query is appended)}
+                            {--preset=1: Aparatments in Tblisi}
                             {--skip-detail-images : Only use cover image from the list (no per-listing detail requests)}
                             {--delay-ms=150 : Pause between detail page requests (0 to disable)}';
 
@@ -22,10 +22,38 @@ class ImportKorterTbilisiListings extends Command
 
     private const USER_AGENT = 'Mozilla/5.0 (compatible; MyGeorgiaEstate/1.0; +https://example.com/bot)';
 
+    private array $presets = [
+        1 => [
+            'url' => 'https://korter.ge/en/apartments-for-sale-tbilisi',
+            'type' => 'apartment',
+            'city' => 'tbilisi',
+        ],
+        2 => [
+            'url' => 'https://korter.ge/en/houses-for-sale-tbilisi',
+            'type' => 'house',
+            'city' => 'tbilisi',
+        ],
+        3 => [
+            'url' => 'https://korter.ge/en/apartments-for-sale-batumi',
+            'type' => 'apartment',
+            'city' => 'batumi',
+        ],
+        4 => [
+            'url' => 'https://korter.ge/en/houses-for-sale-batumi',
+            'type' => 'house',
+            'city' => 'batumi',
+        ]
+    ];
+
     public function handle(KorterInitialStateParser $parser, KorterListingDetailImages $detailImages): int
     {
+        $pr = (int) $this->option('preset');
+        if (!isset($this->presets[$pr])) {
+            throw new \Exception('Preset "' . $pr . '" not found');
+        }
+        $preset = $this->presets[$pr];
         $pages = max(1, (int) $this->option('pages'));
-        $baseUrl = rtrim((string) $this->option('url'), '?&');
+        $baseUrl = rtrim($preset['url'], '?&');
         $skipDetail = (bool) $this->option('skip-detail-images');
         $delayMs = max(0, (int) $this->option('delay-ms'));
 
@@ -67,6 +95,8 @@ class ImportKorterTbilisiListings extends Command
             }
 
             foreach ($apartments as $row) {
+                $row['city'] = trim($preset['city']);
+                $row['type'] = trim($preset['type']);
                 $this->persistApartment($row, $detailImages, $skipDetail, $delayMs);
                 $imported++;
             }
