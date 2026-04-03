@@ -93,7 +93,6 @@ class ImportKorterTbilisiListings extends Command
             throw new \Exception('Preset "'.$pr.'" not found');
         }
         $preset = $this->presets[$pr];
-        print_r($preset);
 
         $pages = max(1, (int) $this->option('pages'));
         $baseUrl = rtrim($preset['url'], '?&');
@@ -142,8 +141,9 @@ class ImportKorterTbilisiListings extends Command
                 $row['type'] = trim($preset['type']);
                 $row['city_name'] = trim($preset['city_name']);
                 $row['market_type'] = trim($preset['market_type']);
-                $this->persistApartment($row, $parser, $detailImages, $layoutExtractor, $skipDetail, $delayMs);
-                $imported++;
+                if ($this->persistApartment($row, $parser, $detailImages, $layoutExtractor, $skipDetail, $delayMs)) {
+                    $imported++;
+                }
             }
         }
 
@@ -165,13 +165,20 @@ class ImportKorterTbilisiListings extends Command
         KorterListingLayoutExtractor $layoutExtractor,
         bool $skipDetail,
         int $delayMs,
-    ): void {
+    ): bool {
         $objectId = (int) ($a['objectId'] ?? 0);
-        if ($objectId <= 0) {
-            return;
+        $layoutId = (int) ($a['layoutId'] ?? 0);
+        if ($objectId <= 0 && $layoutId <= 0) {
+            return false;
         }
 
-        $listing = Listing::query()->firstOrNew(['korter_object_id' => $objectId]);
+        if ($objectId > 0) {
+            $listing = Listing::query()->firstOrNew(['korter_object_id' => $objectId]);
+            $listing->korter_layout_id = null;
+        } else {
+            $listing = Listing::query()->firstOrNew(['korter_layout_id' => $layoutId]);
+            $listing->korter_object_id = null;
+        }
 
         if (! $listing->exists) {
             $max = (int) Listing::query()->where('locale', 'en')->max('listing_index');
@@ -179,10 +186,13 @@ class ImportKorterTbilisiListings extends Command
         }
 
         $listing->locale = 'en';
-        $listing->korter_object_id = $objectId;
+        if ($objectId > 0) {
+            $listing->korter_object_id = $objectId;
+        } else {
+            $listing->korter_layout_id = $layoutId;
+        }
 
-        // $code = 'KORTER-'.$objectId;
-        $code = 'MG-'.$objectId;
+        $code = $objectId > 0 ? 'MG-'.$objectId : 'MG-L'.$layoutId;
         if (strlen($code) > 20) {
             $code = substr($code, 0, 20);
         }
@@ -297,6 +307,8 @@ class ImportKorterTbilisiListings extends Command
         $listing->is_mock = false;
 
         $listing->save();
+
+        return true;
     }
 
     /**
@@ -346,6 +358,9 @@ class ImportKorterTbilisiListings extends Command
         $total = is_array($house) ? ($house['floorCount'] ?? null) : null;
         if (! is_array($floors) || $floors === []) {
             return null;
+        }
+        if (count($floors) > 5 && is_numeric($total)) {
+            return (int) $total.'-floor building';
         }
         $f = implode(', ', array_map('strval', $floors));
         if (is_numeric($total)) {

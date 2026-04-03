@@ -81,8 +81,10 @@ final class KorterListingLayoutExtractor
             return $defaults;
         }
 
-        $total = self::positiveFloatOrNull($layout['area'] ?? null);
-        $living = self::positiveFloatOrNull($layout['livingArea'] ?? null);
+        $total = self::positiveFloatOrNull($layout['area'] ?? null)
+            ?? self::positiveFloatOrNull($layout['totalArea'] ?? null);
+        $living = self::positiveFloatOrNull($layout['livingArea'] ?? null)
+            ?? self::positiveFloatOrNull($layout['totalUsableArea'] ?? null);
         $kitchen = self::positiveFloatOrNull($layout['kitchenArea'] ?? null);
         $land = self::positiveFloatOrNull($layout['landArea'] ?? null);
         $terrace = self::positiveFloatOrNull($layout['terraceArea'] ?? null);
@@ -139,6 +141,10 @@ final class KorterListingLayoutExtractor
             }
 
             return null;
+        }
+
+        if (count($floors) > 5 && is_numeric($total) && (int) $total > 0) {
+            return (int) $total.'-floor building (multiple levels)';
         }
 
         $f = implode(', ', array_map('strval', $floors));

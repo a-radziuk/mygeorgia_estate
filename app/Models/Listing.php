@@ -12,6 +12,7 @@ class Listing extends Model
 
     protected $fillable = [
         'korter_object_id',
+        'korter_layout_id',
         'is_mock',
         'locale',
         'city',
