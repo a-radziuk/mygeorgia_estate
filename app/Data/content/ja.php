@@ -24,6 +24,11 @@ return [
         'ru' => 'RU',
         'ja' => '日本語',
     ],
+    'cities' => [
+        'tbilisi' => 'トビリシ',
+        'batumi' => 'バトゥミ',
+    ],
+    'city_menu_aria' => '都市を選ぶ',
     'meta' => [
         'home' => [
             'title' => 'MyGeorgia Estate | ジョージアの不動産',
@@ -92,6 +97,7 @@ return [
             'pagination_prev' => '前へ',
             'pagination_next' => '次へ',
             'grid_aria' => '物件一覧',
+            'empty_listings' => 'この都市の掲載物件はまだありません。',
             'view_details' => '詳細を見る',
             'gallery_prev' => '前の画像',
             'gallery_next' => '次の画像',

@@ -12,8 +12,8 @@
       <h1>{{ $p['hero_title'] }}</h1>
       <p>{{ $p['hero_text'] }}</p>
       <div class="actions">
-        <a class="btn btn-primary" href="{{ route('site.properties', ['locale' => $locale]) }}#top">{{ $p['cta_listings'] }}</a>
-        <a class="btn btn-ghost" href="{{ route('site.contact', ['locale' => $locale]) }}#contact-form">{{ $p['cta_contact'] }}</a>
+        <a class="btn btn-primary" href="{{ route('site.properties', ['locale' => $locale, 'city' => $city]) }}#top">{{ $p['cta_listings'] }}</a>
+        <a class="btn btn-ghost" href="{{ route('site.contact', ['locale' => $locale, 'city' => $city]) }}#contact-form">{{ $p['cta_contact'] }}</a>
       </div>
     </div>
 

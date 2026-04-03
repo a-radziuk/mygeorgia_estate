@@ -13,27 +13,40 @@ class SiteController extends Controller
 {
     public function redirectRoot(): RedirectResponse
     {
-        return redirect()->route('site.properties', ['locale' => SiteRepository::defaultLocale()]);
+        return redirect()->route('site.properties', [
+            'locale' => SiteRepository::defaultLocale(),
+            'city' => SiteRepository::defaultCity(),
+        ]);
     }
 
-    public function home(string $locale): View
+    public function home(string $locale, string $city): View
     {
         if (! in_array($locale, SiteRepository::locales(), true)) {
             abort(404);
         }
 
-        $site = SiteRepository::forLocale($locale);
+        if (! in_array(strtolower($city), SiteRepository::cities(), true)) {
+            abort(404);
+        }
+
+        $site = SiteRepository::forLocale($locale, $city);
 
         return view('home', [
             'locale' => $locale,
+            'city' => strtolower($city),
             'page' => 'home',
             'site' => $site,
         ]);
     }
 
-    public function listing(string $locale, Listing $listing): View
+    public function listing(string $locale, string $city, Listing $listing): View
     {
         if (! in_array($locale, SiteRepository::locales(), true)) {
+            abort(404);
+        }
+
+        $city = strtolower($city);
+        if (! in_array($city, SiteRepository::cities(), true)) {
             abort(404);
         }
 
@@ -41,25 +54,36 @@ class SiteController extends Controller
             abort(404);
         }
 
-        $site = SiteRepository::forLocale($locale);
+        if ((string) $listing->city !== $city) {
+            abort(404);
+        }
+
+        $site = SiteRepository::forLocale($locale, $city);
 
         return view('listing', [
             'locale' => $locale,
+            'city' => $city,
             'page' => 'listing',
             'site' => $site,
             'listing' => $listing->toSiteArray(),
         ]);
     }
 
-    public function properties(string $locale): View
+    public function properties(string $locale, string $city): View
     {
         if (! in_array($locale, SiteRepository::locales(), true)) {
             abort(404);
         }
 
-        $site = SiteRepository::forLocale($locale);
+        $city = strtolower($city);
+        if (! in_array($city, SiteRepository::cities(), true)) {
+            abort(404);
+        }
+
+        $site = SiteRepository::forLocale($locale, $city);
         $listingsPaginator = Listing::query()
             ->where('locale', $locale)
+            ->where('city', $city)
             ->orderBy('listing_index')
             ->paginate(SiteRepository::LISTINGS_PER_PAGE)
             ->withQueryString()
@@ -68,37 +92,44 @@ class SiteController extends Controller
 
         return view('properties', [
             'locale' => $locale,
+            'city' => $city,
             'page' => 'properties',
             'site' => $site,
             'listingsPaginator' => $listingsPaginator,
         ]);
     }
 
-    public function about(string $locale): View
+    public function about(string $locale, string $city): View
     {
-        return $this->render($locale, 'about');
+        return $this->render($locale, $city, 'about');
     }
 
-    public function contact(string $locale): View
+    public function contact(string $locale, string $city): View
     {
-        return $this->render($locale, 'contact');
+        return $this->render($locale, $city, 'contact');
     }
 
-    public function faqs(string $locale): View
+    public function faqs(string $locale, string $city): View
     {
-        return $this->render($locale, 'faqs');
+        return $this->render($locale, $city, 'faqs');
     }
 
-    private function render(string $locale, string $page): View
+    private function render(string $locale, string $city, string $page): View
     {
         if (! in_array($locale, SiteRepository::locales(), true)) {
             abort(404);
         }
 
-        $site = SiteRepository::forLocale($locale);
+        $city = strtolower($city);
+        if (! in_array($city, SiteRepository::cities(), true)) {
+            abort(404);
+        }
+
+        $site = SiteRepository::forLocale($locale, $city);
 
         return view($page, [
             'locale' => $locale,
+            'city' => $city,
             'page' => $page,
             'site' => $site,
         ]);

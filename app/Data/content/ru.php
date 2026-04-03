@@ -24,6 +24,11 @@ return [
         'ru' => 'RU',
         'ja' => '日本語',
     ],
+    'cities' => [
+        'tbilisi' => 'Тбилиси',
+        'batumi' => 'Батуми',
+    ],
+    'city_menu_aria' => 'Выбор города',
     'meta' => [
         'home' => [
             'title' => 'MyGeorgia Estate | Недвижимость в Грузии',
@@ -92,6 +97,7 @@ return [
             'pagination_prev' => 'Назад',
             'pagination_next' => 'Вперёд',
             'grid_aria' => 'Все объекты',
+            'empty_listings' => 'Пока нет объявлений в этом городе.',
             'view_details' => 'Подробнее',
             'gallery_prev' => 'Предыдущее фото',
             'gallery_next' => 'Следующее фото',

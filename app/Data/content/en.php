@@ -24,6 +24,11 @@ return [
         'ru' => 'RU',
         'ja' => '日本語',
     ],
+    'cities' => [
+        'tbilisi' => 'Tbilisi',
+        'batumi' => 'Batumi',
+    ],
+    'city_menu_aria' => 'Choose city',
     'meta' => [
         'home' => [
             'title' => 'MyGeorgia Estate | Real Estate in Georgia',
@@ -102,6 +107,7 @@ return [
             'pagination_prev' => 'Previous',
             'pagination_next' => 'Next',
             'grid_aria' => 'All listings',
+            'empty_listings' => 'No listings for this city yet.',
             'view_details' => 'View details',
             'gallery_prev' => 'Previous image',
             'gallery_next' => 'Next image',

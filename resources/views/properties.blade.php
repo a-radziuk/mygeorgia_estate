@@ -14,7 +14,7 @@
       <p>{{ $p['hero_text'] }}</p>
       <div class="actions">
         <a class="btn btn-primary" href="#property-grid">{{ $p['cta_grid'] }}</a>
-        <a class="btn btn-ghost" href="{{ route('site.contact', ['locale' => $locale]) }}#contact-form">{{ $p['cta_viewing'] }}</a>
+        <a class="btn btn-ghost" href="{{ route('site.contact', ['locale' => $locale, 'city' => $city]) }}#contact-form">{{ $p['cta_viewing'] }}</a>
       </div>
     </div>
 
@@ -78,6 +78,7 @@
           <div class="card-actions">
             <a class="btn btn-primary" href="{{ route('site.listing', array_filter([
               'locale' => $locale,
+              'city' => $city,
               'listing' => $listing['id'],
               'return_page' => request()->integer('page', 1) > 1 ? request('page') : null,
             ], fn ($v) => $v !== null && $v !== '')) }}">{{ $p['view_details'] }}</a>

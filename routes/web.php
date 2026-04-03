@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SiteController::class, 'redirectRoot'])->name('site.root');
 
-Route::prefix('{locale}')
+Route::get('/{locale}', [SiteController::class, 'redirectRoot'])->name('site.root.locale');
+
+Route::prefix('{locale}/{city}')
     ->whereIn('locale', ['en', 'ru', 'ja'])
+    ->whereIn('city', ['tbilisi', 'batumi'])
     ->group(function () {
         Route::get('/', [SiteController::class, 'home'])->name('site.home');
         Route::get('/properties', [SiteController::class, 'properties'])->name('site.properties');

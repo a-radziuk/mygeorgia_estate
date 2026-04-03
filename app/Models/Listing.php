@@ -14,6 +14,8 @@ class Listing extends Model
         'korter_object_id',
         'is_mock',
         'locale',
+        'city',
+        'type',
         'listing_index',
         'code',
         'images',

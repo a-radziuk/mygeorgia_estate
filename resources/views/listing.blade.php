@@ -4,6 +4,7 @@
   $p = $site['pages']['properties'];
   $backToProperties = route('site.properties', array_filter([
     'locale' => $locale,
+    'city' => $city,
     'page' => request()->integer('return_page', 1) > 1 ? request('return_page') : null,
   ], fn ($v) => $v !== null && $v !== ''));
 @endphp
@@ -136,7 +137,7 @@
             @endforeach
           </ul>
           <div class="modal-footer-actions">
-            <a class="btn btn-primary" href="{{ route('site.contact', ['locale' => $locale]) }}#contact-form">{{ $p['request_viewing'] }}</a>
+            <a class="btn btn-primary" href="{{ route('site.contact', ['locale' => $locale, 'city' => $city]) }}#contact-form">{{ $p['request_viewing'] }}</a>
             <a class="btn btn-ghost" href="{{ $backToProperties }}#property-grid">{{ $p['back_listings'] }}</a>
           </div>
           <p class="muted" style="margin: .85rem 0 0;">{!! $listing['tip'] !!}</p>

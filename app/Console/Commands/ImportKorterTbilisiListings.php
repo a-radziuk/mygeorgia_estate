@@ -27,21 +27,25 @@ class ImportKorterTbilisiListings extends Command
             'url' => 'https://korter.ge/en/apartments-for-sale-tbilisi',
             'type' => 'apartment',
             'city' => 'tbilisi',
+            'city_name' => 'Tbilisi',
         ],
         2 => [
             'url' => 'https://korter.ge/en/houses-for-sale-tbilisi',
             'type' => 'house',
             'city' => 'tbilisi',
+            'city_name' => 'Tbilisi',
         ],
         3 => [
             'url' => 'https://korter.ge/en/apartments-for-sale-batumi',
             'type' => 'apartment',
             'city' => 'batumi',
+            'city_name' => 'Batumi',
         ],
         4 => [
             'url' => 'https://korter.ge/en/houses-for-sale-batumi',
             'type' => 'house',
             'city' => 'batumi',
+            'city_name' => 'Batumi',
         ]
     ];
 
@@ -97,6 +101,7 @@ class ImportKorterTbilisiListings extends Command
             foreach ($apartments as $row) {
                 $row['city'] = trim($preset['city']);
                 $row['type'] = trim($preset['type']);
+                $row['city_name'] = trim($preset['city_name']);
                 $this->persistApartment($row, $detailImages, $skipDetail, $delayMs);
                 $imported++;
             }
@@ -192,7 +197,7 @@ class ImportKorterTbilisiListings extends Command
         $buildingName = (string) data_get($a, 'building.name', '');
         $typeLabel = (string) ($a['propertyTypeRoomCountLabel'] ?? 'Apartment');
 
-        $listing->kicker = $code.' · '.$typeLabel.' · Tbilisi';
+        $listing->kicker = $code.' · '.$typeLabel.' · ' . $a['city_name'];
         $listing->title = $buildingName !== '' ? $buildingName.' · '.$typeLabel : $typeLabel.' · '.$district;
         $listing->address_line = $address;
         $listing->district = $district;
@@ -228,6 +233,9 @@ class ImportKorterTbilisiListings extends Command
         ];
 
         $listing->tip = 'Use code <b>'.$code.'</b> when contacting us.';
+
+        $listing->city = (string) ($a['city'] ?? '');
+        $listing->type = (string) ($a['type'] ?? '');
 
         $listing->is_mock = false;
 
