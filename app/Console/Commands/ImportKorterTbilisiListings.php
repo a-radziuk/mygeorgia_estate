@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Models\Listing;
 use App\Services\KorterInitialStateParser;
 use App\Services\KorterListingDetailImages;
+use App\Services\KorterListingLayoutExtractor;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -46,14 +47,17 @@ class ImportKorterTbilisiListings extends Command
             'type' => 'house',
             'city' => 'batumi',
             'city_name' => 'Batumi',
-        ]
+        ],
     ];
 
-    public function handle(KorterInitialStateParser $parser, KorterListingDetailImages $detailImages): int
-    {
+    public function handle(
+        KorterInitialStateParser $parser,
+        KorterListingDetailImages $detailImages,
+        KorterListingLayoutExtractor $layoutExtractor,
+    ): int {
         $pr = (int) $this->option('preset');
-        if (!isset($this->presets[$pr])) {
-            throw new \Exception('Preset "' . $pr . '" not found');
+        if (! isset($this->presets[$pr])) {
+            throw new \Exception('Preset "'.$pr.'" not found');
         }
         $preset = $this->presets[$pr];
         $pages = max(1, (int) $this->option('pages'));
@@ -102,7 +106,7 @@ class ImportKorterTbilisiListings extends Command
                 $row['city'] = trim($preset['city']);
                 $row['type'] = trim($preset['type']);
                 $row['city_name'] = trim($preset['city_name']);
-                $this->persistApartment($row, $detailImages, $skipDetail, $delayMs);
+                $this->persistApartment($row, $parser, $detailImages, $layoutExtractor, $skipDetail, $delayMs);
                 $imported++;
             }
         }
@@ -118,8 +122,14 @@ class ImportKorterTbilisiListings extends Command
     /**
      * @param  array<string, mixed>  $a
      */
-    private function persistApartment(array $a, KorterListingDetailImages $detailImages, bool $skipDetail, int $delayMs): void
-    {
+    private function persistApartment(
+        array $a,
+        KorterInitialStateParser $parser,
+        KorterListingDetailImages $detailImages,
+        KorterListingLayoutExtractor $layoutExtractor,
+        bool $skipDetail,
+        int $delayMs,
+    ): void {
         $objectId = (int) ($a['objectId'] ?? 0);
         if ($objectId <= 0) {
             return;
@@ -159,6 +169,7 @@ class ImportKorterTbilisiListings extends Command
         $alt = $titleText;
 
         $gallery = [];
+        $layoutDetail = $layoutExtractor->extractFromState(null);
         $link = (string) ($a['link'] ?? '');
         if (! $skipDetail && $link !== '') {
             $detailUrl = KorterListingDetailImages::normalizeUrl($link);
@@ -174,12 +185,18 @@ class ImportKorterTbilisiListings extends Command
                 ->get($detailUrl);
 
             if ($detailResponse->successful()) {
-                $gallery = $detailImages->extractFromHtml($detailResponse->body(), $titleText);
+                $detailState = $parser->parse($detailResponse->body());
+                if (is_array($detailState)) {
+                    $gallery = $detailImages->extractFromState($detailState, $titleText);
+                    $layoutDetail = $layoutExtractor->extractFromState($detailState);
+                }
             }
             if ($delayMs > 0) {
                 usleep($delayMs * 1000);
             }
         }
+
+        $layoutDetail = $this->mergeLayoutListFallbacks($layoutDetail, $a, $area);
 
         if ($gallery === []) {
             $img = $cover !== '' ? $cover : 'property-1.svg';
@@ -197,17 +214,20 @@ class ImportKorterTbilisiListings extends Command
         $buildingName = (string) data_get($a, 'building.name', '');
         $typeLabel = (string) ($a['propertyTypeRoomCountLabel'] ?? 'Apartment');
 
-        $listing->kicker = $code.' · '.$typeLabel.' · ' . $a['city_name'];
+        $listing->kicker = $code.' · '.$typeLabel.' · '.$a['city_name'];
         $listing->title = $buildingName !== '' ? $buildingName.' · '.$typeLabel : $typeLabel.' · '.$district;
         $listing->address_line = $address;
         $listing->district = $district;
         $listing->latitude = data_get($a, 'building.position.lat');
         $listing->longitude = data_get($a, 'building.position.lng');
         $listing->developer = $buildingName !== '' ? $buildingName : null;
-        $listing->built_year = null;
+        $this->applyKorterLayoutFields($listing, $layoutDetail);
         $listing->description_by_developer = data_get($a, 'microMarkupData.description');
+        if (($layoutDetail['description'] ?? null) !== null) {
+            $listing->description_by_developer = $layoutDetail['description'];
+        }
 
-        $floorPart = $this->floorLabel($a);
+        $floorPart = $layoutDetail['floors_label'] ?? $this->floorLabel($a);
         $chips = array_values(array_filter([
             $typeLabel,
             $area > 0 ? $this->formatArea($area) : null,
@@ -240,6 +260,46 @@ class ImportKorterTbilisiListings extends Command
         $listing->is_mock = false;
 
         $listing->save();
+    }
+
+    /**
+     * @param  array<string, mixed>  $layoutDetail
+     * @param  array<string, mixed>  $a
+     * @return array<string, mixed>
+     */
+    private function mergeLayoutListFallbacks(array $layoutDetail, array $a, float $listArea): array
+    {
+        if (($layoutDetail['total_area_sqm'] ?? null) === null && $listArea > 0) {
+            $layoutDetail['total_area_sqm'] = $listArea;
+        }
+        $rc = (int) ($a['roomCount'] ?? 0);
+        if (($layoutDetail['room_count'] ?? null) === null && $rc > 0) {
+            $layoutDetail['room_count'] = $rc;
+        }
+
+        return $layoutDetail;
+    }
+
+    /**
+     * @param  array<string, mixed>  $layoutDetail
+     */
+    private function applyKorterLayoutFields(Listing $listing, array $layoutDetail): void
+    {
+        $listing->built_year = $layoutDetail['built_year'];
+        $listing->total_area_sqm = $layoutDetail['total_area_sqm'];
+        $listing->living_area_sqm = $layoutDetail['living_area_sqm'];
+        $listing->kitchen_area_sqm = $layoutDetail['kitchen_area_sqm'];
+        $listing->land_parcel_area_sqm = $layoutDetail['land_parcel_area_sqm'];
+        $listing->terrace_area_sqm = $layoutDetail['terrace_area_sqm'];
+        $listing->bedroom_count = $layoutDetail['bedroom_count'];
+        $listing->bathroom_count = $layoutDetail['bathroom_count'];
+        $listing->room_count = $layoutDetail['room_count'];
+        $listing->ceiling_height_m = $layoutDetail['ceiling_height_m'];
+        $listing->has_balcony = $layoutDetail['has_balcony'];
+        $listing->has_terrace = $layoutDetail['has_terrace'];
+        $listing->parking = $layoutDetail['parking'];
+        $listing->floors_label = $layoutDetail['floors_label'];
+        $listing->property_subtype = $layoutDetail['property_subtype'];
     }
 
     private function floorLabel(array $a): ?string

@@ -2,6 +2,22 @@
 
 @php
   $p = $site['pages']['properties'];
+  $fmtSqm = function ($v): ?string {
+      if ($v === null) {
+          return null;
+      }
+      $f = (float) $v;
+
+      return (fmod($f, 1.0) === 0.0 ? (string) (int) $f : rtrim(rtrim(number_format($f, 2, '.', ''), '0'), '.')).' m²';
+  };
+  $fmtCeiling = function ($v): ?string {
+      if ($v === null) {
+          return null;
+      }
+      $f = (float) $v;
+
+      return (fmod($f, 1.0) === 0.0 ? (string) (int) $f : rtrim(rtrim(number_format($f, 2, '.', ''), '0'), '.')).' m';
+  };
   $backToProperties = route('site.properties', array_filter([
     'locale' => $locale,
     'city' => $city,
@@ -67,6 +83,25 @@
               @endif
             </div>
           @endif
+            @if (!empty($listing['latitude']) && !empty($listing['longitude']))
+                <div class="listing-map">
+                    <div class="listing-map-label muted">{{ $p['label_map'] }}</div>
+                    <div class="listing-map-frame">
+                        <iframe
+                            title="{{ $p['label_map'] }} — {{ $listing['code'] }}"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps?q={{ $listing['latitude'] }},{{ $listing['longitude'] }}&z=15&output=embed"
+                        ></iframe>
+                    </div>
+                    <a
+                        class="listing-map-external"
+                        href="https://www.google.com/maps/search/?api=1&amp;query={{ $listing['latitude'] }},{{ $listing['longitude'] }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >{{ $p['map_open_external'] }}</a>
+                </div>
+            @endif
           @if (!empty($listing['description_by_developer']))
             <div class="listing-developer-description">
               <div class="listing-developer-heading muted">{{ $p['label_description_by_developer'] }}</div>
@@ -75,9 +110,107 @@
           @endif
         </div>
         <div class="modal-content">
-          <div class="price">{{ $listing['price'] }}</div>
+          <div class="price">{{ $listing['price'] }}  <span class="muted">{{ $listing['price_per_sqm'] }}</span></div>
 
           <dl class="listing-specs">
+              <p class="muted listing-notes">{{ $listing['address'] }}</p>
+              <ul class="bullets">
+                  @foreach ($listing['bullets'] as $b)
+                      <li><b>{{ $b['label'] }}</b> {{ $b['text'] }}</li>
+                  @endforeach
+              </ul>
+              <div class="modal-footer-actions">
+                  <a class="btn btn-primary" href="{{ route('site.contact', ['locale' => $locale, 'city' => $city]) }}#contact-form">{{ $p['request_viewing'] }}</a>
+                  <a class="btn btn-ghost" href="{{ $backToProperties }}#property-grid">{{ $p['back_listings'] }}</a>
+              </div>
+              <p class="muted" style="margin: .85rem 0 0;">{!! $listing['tip'] !!}</p>
+
+              <br >
+
+            @if (!empty($listing['property_subtype']))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_property_subtype'] }}</dt>
+                <dd>{{ $listing['property_subtype'] }}</dd>
+              </div>
+            @endif
+            @if (!empty($listing['room_count']))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_rooms'] }}</dt>
+                <dd>{{ $listing['room_count'] }}</dd>
+              </div>
+            @endif
+            @if (!empty($listing['bedroom_count']))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_bedrooms'] }}</dt>
+                <dd>{{ $listing['bedroom_count'] }}</dd>
+              </div>
+            @endif
+            @if (!empty($listing['bathroom_count']))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_bathrooms'] }}</dt>
+                <dd>{{ $listing['bathroom_count'] }}</dd>
+              </div>
+            @endif
+            @if (!empty($fmtSqm($listing['total_area_sqm'] ?? null)))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_total_area'] }}</dt>
+                <dd>{{ $fmtSqm($listing['total_area_sqm']) }}</dd>
+              </div>
+            @endif
+            @if (!empty($fmtSqm($listing['living_area_sqm'] ?? null)))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_living_area'] }}</dt>
+                <dd>{{ $fmtSqm($listing['living_area_sqm']) }}</dd>
+              </div>
+            @endif
+            @if (!empty($fmtSqm($listing['kitchen_area_sqm'] ?? null)))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_kitchen_area'] }}</dt>
+                <dd>{{ $fmtSqm($listing['kitchen_area_sqm']) }}</dd>
+              </div>
+            @endif
+            @if (!empty($fmtSqm($listing['land_parcel_area_sqm'] ?? null)))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_land_area'] }}</dt>
+                <dd>{{ $fmtSqm($listing['land_parcel_area_sqm']) }}</dd>
+              </div>
+            @endif
+            @if (!empty($fmtSqm($listing['terrace_area_sqm'] ?? null)))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_terrace_area'] }}</dt>
+                <dd>{{ $fmtSqm($listing['terrace_area_sqm']) }}</dd>
+              </div>
+            @endif
+            @if (!empty($fmtCeiling($listing['ceiling_height_m'] ?? null)))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_ceiling_height'] }}</dt>
+                <dd>{{ $fmtCeiling($listing['ceiling_height_m']) }}</dd>
+              </div>
+            @endif
+            @if (!empty($listing['floors_label']))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_floors'] }}</dt>
+                <dd>{{ $listing['floors_label'] }}</dd>
+              </div>
+            @endif
+            @if (($listing['has_balcony'] ?? null) !== null)
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_balcony'] }}</dt>
+                <dd>{{ $listing['has_balcony'] ? $p['spec_yes'] : $p['spec_no'] }}</dd>
+              </div>
+            @endif
+            @if (($listing['has_terrace'] ?? null) !== null)
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_terrace'] }}</dt>
+                <dd>{{ $listing['has_terrace'] ? $p['spec_yes'] : $p['spec_no'] }}</dd>
+              </div>
+            @endif
+            @if (!empty($listing['parking']))
+              <div class="listing-specs-row">
+                <dt>{{ $p['label_parking'] }}</dt>
+                <dd>{{ $listing['parking'] }}</dd>
+              </div>
+            @endif
             @if (!empty($listing['price_per_sqm']))
               <div class="listing-specs-row">
                 <dt>{{ $p['label_price_per_sqm'] }}</dt>
@@ -110,37 +243,6 @@
             @endif
           </dl>
 
-          @if (!empty($listing['latitude']) && !empty($listing['longitude']))
-            <div class="listing-map">
-              <div class="listing-map-label muted">{{ $p['label_map'] }}</div>
-              <div class="listing-map-frame">
-                <iframe
-                  title="{{ $p['label_map'] }} — {{ $listing['code'] }}"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  src="https://www.google.com/maps?q={{ $listing['latitude'] }},{{ $listing['longitude'] }}&z=15&output=embed"
-                ></iframe>
-              </div>
-              <a
-                class="listing-map-external"
-                href="https://www.google.com/maps/search/?api=1&amp;query={{ $listing['latitude'] }},{{ $listing['longitude'] }}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >{{ $p['map_open_external'] }}</a>
-            </div>
-          @endif
-
-          <p class="muted listing-notes">{{ $listing['address'] }}</p>
-          <ul class="bullets">
-            @foreach ($listing['bullets'] as $b)
-              <li><b>{{ $b['label'] }}</b> {{ $b['text'] }}</li>
-            @endforeach
-          </ul>
-          <div class="modal-footer-actions">
-            <a class="btn btn-primary" href="{{ route('site.contact', ['locale' => $locale, 'city' => $city]) }}#contact-form">{{ $p['request_viewing'] }}</a>
-            <a class="btn btn-ghost" href="{{ $backToProperties }}#property-grid">{{ $p['back_listings'] }}</a>
-          </div>
-          <p class="muted" style="margin: .85rem 0 0;">{!! $listing['tip'] !!}</p>
         </div>
       </div>
     </div>
