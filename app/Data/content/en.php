@@ -185,6 +185,8 @@ return [
             'spec_yes' => 'Yes',
             'spec_no' => 'No',
             'label_map' => 'Location',
+            'label_listed_at' => 'Listed',
+            'label_updated_at' => 'Updated',
             'map_open_external' => 'Open in Google Maps',
         ],
         'about' => [

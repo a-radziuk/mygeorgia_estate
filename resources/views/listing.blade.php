@@ -117,8 +117,23 @@
               <p class="muted listing-notes">{{ $listing['property_subtype'] }}, {{ $listing['market_type'] }}</p>
               <ul class="bullets">
                   @foreach ($listing['bullets'] as $b)
+                      @if ($b['label'] != 'Source')
                       <li><b>{{ $b['label'] }}</b> {{ $b['text'] }}</li>
+                      @endif
                   @endforeach
+                  @if (!empty($listing['korter_listed_at']))
+                      <li >
+                          <b>{{ $p['label_listed_at'] }}</b>
+                          {{ \Carbon\Carbon::parse($listing['korter_listed_at'])->locale($locale)->translatedFormat('j F Y') }}
+                      </li>
+                  @endif
+                  @if (!empty($listing['korter_updated_at']))
+                      <li >
+                          <b>{{ $p['label_updated_at'] }}</b>
+                          {{ \Carbon\Carbon::parse($listing['korter_updated_at'])->locale($locale)->translatedFormat('j F Y') }}
+                      </li>
+                  @endif
+
               </ul>
               <div class="modal-footer-actions">
                   <a class="btn btn-primary" href="{{ route('site.contact', ['locale' => $locale, 'city' => $city]) }}#contact-form">{{ $p['request_viewing'] }}</a>

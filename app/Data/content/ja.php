@@ -175,6 +175,8 @@ return [
             'spec_yes' => 'あり',
             'spec_no' => 'なし',
             'label_map' => '地図',
+            'label_listed_at' => '掲載日',
+            'label_updated_at' => '更新日',
             'map_open_external' => 'Googleマップで開く',
         ],
         'about' => [

@@ -61,6 +61,8 @@ class Listing extends Model
         'bullets',
         'tip',
         'market_type',
+        'korter_listed_at',
+        'korter_updated_at',
     ];
 
     /**
@@ -111,7 +113,9 @@ class Listing extends Model
             'bullets' => $this->bullets,
             'tip' => $this->tip,
             'code' => $this->code,
-            'market_type' => $this->_market_types[$this->market_type]
+            'market_type' => $this->_market_types[$this->market_type],
+            'korter_listed_at' => $this->korter_listed_at?->toIso8601String(),
+            'korter_updated_at' => $this->korter_updated_at?->toIso8601String(),
         ];
     }
 
@@ -137,6 +141,8 @@ class Listing extends Model
             'chips' => 'array',
             'bullets' => 'array',
             'images' => 'array',
+            'korter_listed_at' => 'datetime',
+            'korter_updated_at' => 'datetime',
         ];
     }
 }

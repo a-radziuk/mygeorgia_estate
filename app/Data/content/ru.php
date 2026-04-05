@@ -175,6 +175,8 @@ return [
             'spec_yes' => 'Да',
             'spec_no' => 'Нет',
             'label_map' => 'На карте',
+            'label_listed_at' => 'Размещено',
+            'label_updated_at' => 'Обновлено',
             'map_open_external' => 'Открыть в Google Maps',
         ],
         'about' => [

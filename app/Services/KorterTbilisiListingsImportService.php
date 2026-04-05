@@ -433,6 +433,12 @@ final class KorterTbilisiListingsImportService
         $listing->parking = $layoutDetail['parking'];
         $listing->floors_label = $layoutDetail['floors_label'];
         $listing->property_subtype = $layoutDetail['property_subtype'];
+        if (($layoutDetail['korter_listed_at'] ?? null) !== null) {
+            $listing->korter_listed_at = $layoutDetail['korter_listed_at'];
+        }
+        if (($layoutDetail['korter_updated_at'] ?? null) !== null) {
+            $listing->korter_updated_at = $layoutDetail['korter_updated_at'];
+        }
     }
 
     private function floorLabel(array $a): ?string

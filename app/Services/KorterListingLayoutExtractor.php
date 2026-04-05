@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 /**
@@ -48,6 +49,8 @@ final class KorterListingLayoutExtractor
      *   floors_label: string|null,
      *   property_subtype: string|null,
      *   description: string|null,
+     *   korter_listed_at: string|null,
+     *   korter_updated_at: string|null,
      * }
      */
     public function extractFromState(?array $state): array
@@ -69,6 +72,8 @@ final class KorterListingLayoutExtractor
             'floors_label' => null,
             'property_subtype' => null,
             'description' => null,
+            'korter_listed_at' => null,
+            'korter_updated_at' => null,
         ];
 
         if ($state === null) {
@@ -95,6 +100,10 @@ final class KorterListingLayoutExtractor
         $parkingRaw = $layout['parking'] ?? null;
         $parking = self::parkingToString($parkingRaw);
 
+        $listedAt = self::parseIsoDatetime($layout['publishTime'] ?? null)
+            ?? self::parseIsoDatetime($layout['createTime'] ?? null);
+        $updatedAt = self::parseIsoDatetime($layout['actualizeTime'] ?? null);
+
         return [
             'total_area_sqm' => $total,
             'living_area_sqm' => $living,
@@ -112,7 +121,28 @@ final class KorterListingLayoutExtractor
             'floors_label' => self::floorsLabelFromLayout($layout),
             'property_subtype' => $subtype,
             'description' => self::nonEmptyString($layout['description'] ?? null),
+            'korter_listed_at' => $listedAt,
+            'korter_updated_at' => $updatedAt,
         ];
+    }
+
+    /**
+     * Korter layout uses ISO-8601 strings (e.g. publishTime, actualizeTime).
+     */
+    private static function parseIsoDatetime(mixed $v): ?string
+    {
+        if (! is_string($v)) {
+            return null;
+        }
+        $t = trim($v);
+        if ($t === '') {
+            return null;
+        }
+        try {
+            return Carbon::parse($t)->format('Y-m-d H:i:s');
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     /**
