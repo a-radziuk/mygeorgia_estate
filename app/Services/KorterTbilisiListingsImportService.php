@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\KorterListingPublicCode;
 use App\Models\Listing;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Http;
@@ -240,11 +241,10 @@ final class KorterTbilisiListingsImportService
             $listing->korter_layout_id = $layoutId;
         }
 
-        $code = $objectId > 0 ? 'MG-'. $this->makeMyGeorgiaId($objectId) : 'MG-L'. $this->makeMyGeorgiaId($layoutId);
-        if (strlen($code) > 20) {
-            $code = substr($code, 0, 20);
-        }
-        $listing->code = $code;
+        $korterKey = $objectId > 0 ? $objectId : $layoutId;
+        $isObject = $objectId > 0;
+        $token = $this->makeMyGeorgiaId($korterKey, $isObject);
+        $listing->code = $code = 'MG-'.$token;
 
         $currency = (string) ($a['currency'] ?? 'USD');
         $price = (float) ($a['price'] ?? 0);
@@ -371,9 +371,13 @@ final class KorterTbilisiListingsImportService
         return true;
     }
 
-    private function makeMyGeorgiaId($objectId)
+    /**
+     * Stable per-Korter-id token: two letters, three digits, hyphen, three digits (e.g. AA042-001).
+     * Backed by {@see KorterListingPublicCode}.
+     */
+    private function makeMyGeorgiaId(int $korterId, bool $isObject): string
     {
-        return $objectId;
+        return KorterListingPublicCode::allocateOrGet($korterId, $isObject);
     }
 
     /**
