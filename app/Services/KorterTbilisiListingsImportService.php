@@ -326,9 +326,11 @@ final class KorterTbilisiListingsImportService
             ? KorterListingDetailImages::normalizeUrl($link)
             : null;
         $this->applyKorterLayoutFields($listing, $layoutDetail);
-        $listing->description_by_developer = $this->filterOutKorterGe(data_get($a, 'microMarkupData.description'));
+        $listDesc = data_get($a, 'microMarkupData.description');
+        $listing->description_by_developer = $this->filterOutKorterGe(is_string($listDesc) ? $listDesc : null);
         if (($layoutDetail['description'] ?? null) !== null) {
-            $listing->description_by_developer = $layoutDetail['description'];
+            $detailDesc = $layoutDetail['description'];
+            $listing->description_by_developer = $this->filterOutKorterGe(is_string($detailDesc) ? $detailDesc : null);
         }
 
         $chipLead = str_contains($headline, ',')
@@ -371,9 +373,43 @@ final class KorterTbilisiListingsImportService
         return true;
     }
 
-    private function filterOutKorterGe(string $text): string
+    /**
+     * Drops any sentence that mentions Korter.ge (case-insensitive). Sentences are split on
+     * whitespace following ., !, or ?. HTML tags are stripped first.
+     */
+    private function filterOutKorterGe(?string $text): ?string
     {
-        return $text;
+        if ($text === null || trim($text) === '') {
+            return $text === null ? null : '';
+        }
+
+        $plain = trim(preg_replace('/\s+/u', ' ', strip_tags($text)) ?? '');
+        if ($plain === '') {
+            return '';
+        }
+
+        $parts = preg_split('/(?<=[.!?])\s+/u', $plain, -1, PREG_SPLIT_NO_EMPTY);
+        if ($parts === false || $parts === []) {
+            return preg_match('/korter\.ge/ui', $plain) ? '' : $plain;
+        }
+
+        $kept = [];
+        foreach ($parts as $sentence) {
+            $s = trim($sentence);
+            if ($s === '') {
+                continue;
+            }
+            if (preg_match('/korter\.ge/ui', $s)) {
+                continue;
+            }
+            $kept[] = $s;
+        }
+
+        if ($kept === []) {
+            return '';
+        }
+
+        return implode(' ', $kept);
     }
 
     /**
