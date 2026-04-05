@@ -11,7 +11,7 @@ class Listing extends Model
     public $timestamps = false;
 
     protected $_market_types = [
-        'primary' => 'New',
+        'primary' => 'Off-plan',
         'secondary' => 'Resale',
     ];
 
