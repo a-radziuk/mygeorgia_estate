@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
@@ -14,6 +15,25 @@ class Listing extends Model
         'primary' => 'Off-plan',
         'secondary' => 'Resale',
     ];
+
+    /**
+     * Public catalog: require a positive numeric price (hides null and zero).
+     *
+     * @param  Builder<static>  $query
+     */
+    public function scopeWithListedPrice(Builder $query): void
+    {
+        $query->whereNotNull('price_amount')->where('price_amount', '>', 0);
+    }
+
+    public function hasListedPrice(): bool
+    {
+        if ($this->price_amount === null) {
+            return false;
+        }
+
+        return (float) $this->price_amount > 0.0;
+    }
 
     protected $fillable = [
         'korter_object_id',

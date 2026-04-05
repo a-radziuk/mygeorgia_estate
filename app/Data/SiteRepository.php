@@ -69,6 +69,7 @@ final class SiteRepository
     private static function listingsKeyedByIndex(string $locale, string $city): array
     {
         return Listing::query()
+            ->withListedPrice()
             ->where('locale', $locale)
             ->where('city', $city)
             ->orderBy('listing_index')

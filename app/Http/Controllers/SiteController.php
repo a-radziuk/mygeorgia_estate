@@ -61,6 +61,10 @@ class SiteController extends Controller
             abort(404);
         }
 
+        if (! $listing->hasListedPrice()) {
+            abort(404);
+        }
+
         $site = SiteRepository::forLocale($locale, $city);
         $listingArr = $listing->toSiteArray();
 
@@ -96,11 +100,11 @@ class SiteController extends Controller
 
         $site = SiteRepository::forLocale($locale, $city);
         $listingsQuery = Listing::query()
+            ->withListedPrice()
             ->where('locale', $locale)
             ->where('city', $city)
             ->where('type', $type)
-            ->orderBy('korter_updated_at', 'desc')
-        ;
+            ->orderBy('korter_updated_at', 'desc');
         $filters->applyTo($listingsQuery);
 
         $listingsPaginator = $listingsQuery

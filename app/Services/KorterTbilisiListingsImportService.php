@@ -326,7 +326,7 @@ final class KorterTbilisiListingsImportService
             ? KorterListingDetailImages::normalizeUrl($link)
             : null;
         $this->applyKorterLayoutFields($listing, $layoutDetail);
-        $listing->description_by_developer = data_get($a, 'microMarkupData.description');
+        $listing->description_by_developer = $this->filterOutKorterGe(data_get($a, 'microMarkupData.description'));
         if (($layoutDetail['description'] ?? null) !== null) {
             $listing->description_by_developer = $layoutDetail['description'];
         }
@@ -369,6 +369,11 @@ final class KorterTbilisiListingsImportService
         $listing->save();
 
         return true;
+    }
+
+    private function filterOutKorterGe(string $text): string
+    {
+        return $text;
     }
 
     /**
