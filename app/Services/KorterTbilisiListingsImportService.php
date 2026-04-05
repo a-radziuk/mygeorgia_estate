@@ -24,7 +24,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'tbilisi',
             'city_name' => 'Tbilisi',
             'market_type' => 'primary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
         2 => [
             'url' => 'https://korter.ge/en/houses-for-sale-tbilisi?market_types=primary',
@@ -32,7 +32,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'tbilisi',
             'city_name' => 'Tbilisi',
             'market_type' => 'primary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
         3 => [
             'url' => 'https://korter.ge/en/apartments-for-sale-batumi?market_types=primary',
@@ -40,7 +40,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'batumi',
             'city_name' => 'Batumi',
             'market_type' => 'primary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
         4 => [
             'url' => 'https://korter.ge/en/houses-for-sale-batumi?market_types=primary',
@@ -48,7 +48,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'batumi',
             'city_name' => 'Batumi',
             'market_type' => 'primary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
         5 => [
             'url' => 'https://korter.ge/en/apartments-for-sale-tbilisi?market_types=secondary',
@@ -56,7 +56,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'tbilisi',
             'city_name' => 'Tbilisi',
             'market_type' => 'secondary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
         6 => [
             'url' => 'https://korter.ge/en/houses-for-sale-tbilisi?market_types=secondary',
@@ -64,7 +64,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'tbilisi',
             'city_name' => 'Tbilisi',
             'market_type' => 'secondary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
         7 => [
             'url' => 'https://korter.ge/en/apartments-for-sale-batumi?market_types=secondary',
@@ -72,7 +72,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'batumi',
             'city_name' => 'Batumi',
             'market_type' => 'secondary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
         8 => [
             'url' => 'https://korter.ge/en/houses-for-sale-batumi?market_types=secondary',
@@ -80,7 +80,7 @@ final class KorterTbilisiListingsImportService
             'city' => 'batumi',
             'city_name' => 'Batumi',
             'market_type' => 'secondary',
-            'max_page' => 100,
+            'max_page' => 5,
         ],
     ];
 
@@ -322,6 +322,9 @@ final class KorterTbilisiListingsImportService
         $listing->longitude = data_get($a, 'building.position.lng');
         $listing->developer = $buildingName !== '' ? $buildingName : null;
         $listing->market_type = $a['market_type'];
+        $listing->korter_url = $link !== ''
+            ? KorterListingDetailImages::normalizeUrl($link)
+            : null;
         $this->applyKorterLayoutFields($listing, $layoutDetail);
         $listing->description_by_developer = data_get($a, 'microMarkupData.description');
         if (($layoutDetail['description'] ?? null) !== null) {

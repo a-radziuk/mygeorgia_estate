@@ -63,6 +63,7 @@ class Listing extends Model
         'market_type',
         'korter_listed_at',
         'korter_updated_at',
+        'korter_url',
     ];
 
     /**

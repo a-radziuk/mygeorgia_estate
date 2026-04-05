@@ -12,5 +12,5 @@ while true; do
   php artisan korter:import 2>&1
   exit_code=$?
   echo "-------- finished with exit code ${exit_code} --------"
-  sleep 60
+  sleep 30
 done

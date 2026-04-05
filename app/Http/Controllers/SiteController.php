@@ -98,7 +98,9 @@ class SiteController extends Controller
         $listingsQuery = Listing::query()
             ->where('locale', $locale)
             ->where('city', $city)
-            ->where('type', $type);
+            ->where('type', $type)
+            ->orderBy('korter_updated_at', 'desc')
+        ;
         $filters->applyTo($listingsQuery);
 
         $listingsPaginator = $listingsQuery
