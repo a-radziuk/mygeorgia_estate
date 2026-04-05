@@ -245,12 +245,14 @@
                 <dd>{{ $listing['district'] }}</dd>
               </div>
             @endif
+              {{--
             @if (!empty($listing['developer']))
               <div class="listing-specs-row">
                 <dt>{{ $p['label_developer'] }}</dt>
                 <dd>{{ $listing['developer'] }}</dd>
               </div>
             @endif
+            --}}
             @if (!empty($listing['built_year']))
               <div class="listing-specs-row">
                 <dt>{{ $p['label_built_year'] }}</dt>

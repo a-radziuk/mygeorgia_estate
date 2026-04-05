@@ -240,7 +240,7 @@ final class KorterTbilisiListingsImportService
             $listing->korter_layout_id = $layoutId;
         }
 
-        $code = $objectId > 0 ? 'MG-'.$objectId : 'MG-L'.$layoutId;
+        $code = $objectId > 0 ? 'MG-'. $this->makeMyGeorgiaId($objectId) : 'MG-L'. $this->makeMyGeorgiaId($layoutId);
         if (strlen($code) > 20) {
             $code = substr($code, 0, 20);
         }
@@ -369,6 +369,11 @@ final class KorterTbilisiListingsImportService
         $listing->save();
 
         return true;
+    }
+
+    private function makeMyGeorgiaId($objectId)
+    {
+        return $objectId;
     }
 
     /**
